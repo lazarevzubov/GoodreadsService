@@ -1,3 +1,3 @@
 # GoodreadsService
 
-TODO
+W.I.P.
