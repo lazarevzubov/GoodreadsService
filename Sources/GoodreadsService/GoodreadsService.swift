@@ -1,9 +1,39 @@
-// TODO: Delete after testing.
+//
+//  GoodreadsService.swift
+//  
+//
+//  Created by Nikita Lazarev-Zubov on 15.4.2020.
+//
 
-struct GoodreadsService {
+// TODO: HeaderDoc.
+
+public struct GoodreadsService {
 
     // MARK: - Properties
 
-    var text = "Hello, World!"
+    // MARK: Private properties
+
+    private let webService: WebService
+
+    // MARK: - Initialization
+
+    public init(key: String) {
+        let webService = WebDefaultService(key: key)
+        self.init(webService: webService)
+    }
+
+    init(webService: WebService) {
+        self.webService = webService
+    }
+
+    // MARK: - Methods
+
+    public func searchBooks(_ query: String, resultCompletion: (_ ids: [String]) -> Void) {
+        webService.searchBooks(query, resultCompletion: resultCompletion)
+    }
+
+    public func getBook(by id: String, resultCompletion: (_ ids: [Book]) -> Void) {
+        webService.getBook(by: id, resultCompletion: resultCompletion)
+    }
 
 }
