@@ -1,6 +1,6 @@
 //
 //  GoodreadsService.swift
-//  
+//  GoodreadsService
 //
 //  Created by Nikita Lazarev-Zubov on 15.4.2020.
 //
@@ -28,11 +28,11 @@ public struct GoodreadsService {
 
     // MARK: - Methods
 
-    public func searchBooks(_ query: String, resultCompletion: (_ ids: [String]) -> Void) {
+    public func searchBooks(_ query: String, resultCompletion: @escaping (_ ids: [String]) -> Void) {
         webService.searchBooks(query, resultCompletion: resultCompletion)
     }
 
-    public func getBook(by id: String, resultCompletion: (_ ids: [Book]) -> Void) {
+    public func getBook(by id: String, resultCompletion: @escaping (_ ids: [Book]) -> Void) {
         webService.getBook(by: id, resultCompletion: resultCompletion)
     }
 

@@ -1,6 +1,6 @@
 //
 //  Book.swift
-//  
+//  GoodreadsService
 //
 //  Created by Nikita Lazarev-Zubov on 14.4.2020.
 //
