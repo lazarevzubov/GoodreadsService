@@ -21,7 +21,7 @@ public struct Book {
 
     // MARK: - Initilization
 
-    init(authors: [String], title: String, id: String, imageURL: URL? = nil, similarBookIDs: [String] = []) {
+    public init(authors: [String], title: String, id: String, imageURL: URL? = nil, similarBookIDs: [String] = []) {
         self.authors = authors
         self.title = title
         self.id = id
