@@ -30,3 +30,7 @@ public struct Book {
     }
     
 }
+
+// MARK: - Hashable
+
+extension Book: Hashable { }
