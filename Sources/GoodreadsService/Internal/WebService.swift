@@ -14,7 +14,7 @@ protocol WebService {
     // MARK: - Methods
     
     func searchBooks(_ query: String, resultCompletion: @escaping (_ ids: [String]) -> Void)
-    func getBook(by id: String, resultCompletion: @escaping (_ ids: [Book]) -> Void)
+    func getBook(by id: String, resultCompletion: @escaping (_ book: Book) -> Void)
     
 }
 
@@ -55,7 +55,7 @@ struct WebDefaultService: WebService {
         }.resume()
     }
     
-    func getBook(by id: String, resultCompletion: @escaping (_ ids: [Book]) -> Void) {
+    func getBook(by id: String, resultCompletion: @escaping (_ book: Book) -> Void) {
         // TODO
     }
 
