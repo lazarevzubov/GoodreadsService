@@ -9,11 +9,11 @@ import Foundation
 
 // TODO: HeaderDoc.
 
-final class SearchBooksXMLParser: NSObject, XMLParserResult {
+final class SearchBooksXMLParser: NSObject, XMLParserDelegateResult {
 
     // MARK: - Properties
 
-    // MARK: XMLParserResult protocol properties
+    // MARK: XMLParserDelegateResult protocol properties
 
     private(set) var result = [String]()
 
@@ -22,15 +22,9 @@ final class SearchBooksXMLParser: NSObject, XMLParserResult {
     private var currentElement = ""
     private var currentID = ""
 
-}
-
-// MARK: - XMLParserDelegate
-
-extension SearchBooksXMLParser: XMLParserDelegate {
-
     // MARK: - Methods
 
-    // MARK: XMLParserDelegate protocol methods
+    // MARK: XMLParserDelegateResult protocol methods
 
     func parser(_ parser: XMLParser,
                 didStartElement elementName: String,

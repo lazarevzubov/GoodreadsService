@@ -14,6 +14,7 @@ protocol URLFactory {
     // MARK: - Methods
 
     func makeSearchBooksURL(key: String, query: String) -> URL
+    func makeBookInfoURL(key: String, id: String) -> URL
 
 }
 
@@ -43,6 +44,23 @@ struct URLDefaultFactory: URLFactory {
         return url
     }
 
+    func makeBookInfoURL(key: String, id: String) -> URL {
+        // https://www.goodreads.com/book/show/375802.xml?key=JQfiS9k0doIho3vm13Qxdg
+
+        var urlComponents = URLComponents()
+        urlComponents.scheme = Component.scheme
+        urlComponents.host = Component.host
+        urlComponents.path = String(format: Component.Path.bookInfoFormat, id)
+        urlComponents.queryItems = [URLQueryItem(name: Component.Query.key, value: key)]
+
+        guard let url = urlComponents.url else {
+            // TODO: Handle properly, though not going to happen really.
+            fatalError()
+        }
+
+        return url
+    }
+
     // MARK: -
 
     private enum Component {
@@ -58,6 +76,7 @@ struct URLDefaultFactory: URLFactory {
 
             // MARK: - Properties
 
+            static let bookInfoFormat = "/book/show/%@.xml"
             static let searchBook = "/search/index.xml"
 
         }

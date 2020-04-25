@@ -14,7 +14,7 @@ protocol WebService {
     // MARK: - Methods
     
     func searchBooks(_ query: String, resultCompletion: @escaping (_ ids: [String]) -> Void)
-    func getBook(by id: String, resultCompletion: @escaping (_ book: Book) -> Void)
+    func getBook(by id: String, resultCompletion: @escaping (_ book: Book?) -> Void)
     
 }
 
@@ -44,31 +44,38 @@ struct WebDefaultService: WebService {
     
     func searchBooks(_ query: String, resultCompletion: @escaping (_ ids: [String]) -> Void) {
         let url = urlFactory.makeSearchBooksURL(key: key, query: query)
-        _ = urlSession.dataTask(with: url) { data, _, _ in
-            guard let data = data else {
-                resultCompletion([])
-                // TODO: Handle errors.
-
-                return
-            }
-            self.handleSearchBooksXML(data, resultCompletion: resultCompletion)
-        }.resume()
+        let parser = SearchBooksXMLParser()
+        runDataTask(with: url, parser: parser, resultCompletion: resultCompletion)
     }
     
-    func getBook(by id: String, resultCompletion: @escaping (_ book: Book) -> Void) {
-        // TODO
+    func getBook(by id: String, resultCompletion: @escaping (_ book: Book?) -> Void) {
+        let url = urlFactory.makeBookInfoURL(key: key, id: id)
+        let parser = BookInfoXMLParser()
+        runDataTask(with: url, parser: parser, resultCompletion: resultCompletion)
     }
 
     // MARK: Private methods
 
-    private func handleSearchBooksXML(_ data: Data, resultCompletion: @escaping (_ ids: [String]) -> Void) {
-        let parser = XMLParser(data: data)
+    private func runDataTask<Parser: XMLParserDelegateResult>(with url: URL,
+                                                              parser: Parser,
+                                                              resultCompletion: @escaping (Parser.Result) -> Void) {
+        _ = urlSession.dataTask(with: url) { data, _, _ in
+            guard let data = data else {
+                // TODO: Handle errors.
+                return
+            }
+            self.handleXML(data, parser: parser, resultCompletion: resultCompletion)
+        }.resume()
+    }
 
-        let parserDelegate = SearchBooksXMLParser()
-        parser.delegate = parserDelegate
-        parser.parse()
+    private func handleXML<Parser: XMLParserDelegateResult>(_ data: Data,
+                                                            parser: Parser,
+                                                            resultCompletion: @escaping (Parser.Result) -> Void) {
+        let systemParser = XMLParser(data: data)
+        systemParser.delegate = parser
+        systemParser.parse()
 
-        resultCompletion(parserDelegate.result)
+        resultCompletion(parser.result)
     }
     
 }

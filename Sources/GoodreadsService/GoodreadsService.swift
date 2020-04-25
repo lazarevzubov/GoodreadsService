@@ -32,7 +32,7 @@ public struct GoodreadsService {
         webService.searchBooks(query, resultCompletion: resultCompletion)
     }
 
-    public func getBook(by id: String, resultCompletion: @escaping (_ book: Book) -> Void) {
+    public func getBook(by id: String, resultCompletion: @escaping (_ book: Book?) -> Void) {
         webService.getBook(by: id, resultCompletion: resultCompletion)
     }
 

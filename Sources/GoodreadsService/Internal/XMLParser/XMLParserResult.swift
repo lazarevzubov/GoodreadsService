@@ -5,9 +5,11 @@
 //  Created by Nikita Lazarev-Zubov on 18.4.2020.
 //
 
+import Foundation
+
 // TODO: HeaderDoc.
 
-protocol XMLParserResult {
+protocol XMLParserDelegateResult: XMLParserDelegate {
 
     associatedtype Result
 
