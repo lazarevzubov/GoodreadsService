@@ -19,7 +19,7 @@ final class SearchBooksXMLParser: NSObject, XMLParserDelegateResult {
 
     // MARK: Private properties
 
-    private var currentElement = ""
+    private var currentElement: String?
     private var currentID = ""
 
     // MARK: - Methods
@@ -45,7 +45,7 @@ final class SearchBooksXMLParser: NSObject, XMLParserDelegateResult {
         guard currentElement == Element.id else {
             return
         }
-        currentID += string
+        currentID = string
     }
 
     func parser(_ parser: XMLParser,
