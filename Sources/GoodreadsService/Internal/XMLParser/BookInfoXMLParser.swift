@@ -16,8 +16,7 @@ final class BookInfoXMLParser: NSObject, XMLParserDelegateResult {
     // MARK: XMLParserDelegateResult protocol properties
 
     var result: Book? {
-        guard let id = id,
-            let title = title else {
+        guard let id = id else {
             return nil
         }
 
@@ -38,7 +37,7 @@ final class BookInfoXMLParser: NSObject, XMLParserDelegateResult {
     private var authorNameExpected = false
     private var authors = [String]()
     private var bookIDExpected = false
-    private var currentAuthorName: String?
+    private var currentAuthorName = ""
     private var currentElement: String?
     private var currentSimilarBookID: String?
     private var id: String?
@@ -46,7 +45,7 @@ final class BookInfoXMLParser: NSObject, XMLParserDelegateResult {
     private var similarBookIDExpected = false
     private var similarBooksIDs = [String]()
     private var similarBooksOngoing = false
-    private var title: String?
+    private var title = ""
 
     // MARK: - Methods
 
@@ -90,10 +89,10 @@ final class BookInfoXMLParser: NSObject, XMLParserDelegateResult {
         if currentElement == Element.nameGeneral,
             authorNameExpected,
             !similarBooksOngoing {
-            currentAuthorName = string
+            currentAuthorName += string
         }
         if currentElement == Element.title {
-            title = string
+            title += string
         }
     }
 
@@ -116,9 +115,9 @@ final class BookInfoXMLParser: NSObject, XMLParserDelegateResult {
         }
         if elementName == Element.nameGeneral,
             authorNameExpected,
-            !similarBooksOngoing,
-            let currentAuthorName = currentAuthorName {
+            !similarBooksOngoing {
             authors.append(currentAuthorName)
+            currentAuthorName = ""
         }
         if elementName == Element.similarBooks {
             similarBooksOngoing = false
