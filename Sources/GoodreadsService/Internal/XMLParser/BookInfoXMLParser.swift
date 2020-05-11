@@ -7,8 +7,7 @@
 
 import Foundation
 
-// TODO: HeaderDoc.
-
+/// The interface an XML parser uses to inform its delegate about the content of the parsed book info document.
 final class BookInfoXMLParser: NSObject, XMLParserDelegateResult {
 
     // MARK: - Properties

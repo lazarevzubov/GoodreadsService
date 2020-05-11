@@ -7,19 +7,37 @@
 
 import Foundation
 
-// TODO: HeaderDoc.
-
+/// The service URLs factory.
 protocol URLFactory {
 
     // MARK: - Methods
 
+    /**
+     Creates the URL for the specified search query.
+
+     - Parameters:
+        - key: A Goodreads service API key.
+        - query: The search query.
+
+     - Returns: The URL for the specified search query.
+     */
     func makeSearchBooksURL(key: String, query: String) -> URL
+    /**
+    Creates the URL for the specified book info request.
+
+    - Parameters:
+       - key: A Goodreads service API key.
+       - id: The ID of the book.
+
+    - Returns: The URL for the specified book info request.
+    */
     func makeBookInfoURL(key: String, id: String) -> URL
 
 }
 
 // MARK: -
 
+/// The real service URLs factory.
 struct URLDefaultFactory: URLFactory {
 
     // MARK: - Methods

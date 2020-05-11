@@ -7,19 +7,35 @@
 
 import Foundation
 
-// TODO: HeaderDoc.
-
+/// Handles requests to a web service.
 protocol WebService {
     
     // MARK: - Methods
-    
+
+    /**
+    Sends a search request to the service.
+
+    - Parameters:
+       - query: The query to handle.
+       - resultCompletion: The block of code that handles the result.
+       - ids: The resulting array of book IDs. If no results or an error occurred, the array is empty.
+    */
     func searchBooks(_ query: String, resultCompletion: @escaping (_ ids: [String]) -> Void)
+    /**
+    Sends the book info request.
+
+    - Parameters:
+       - id: The ID of the book.
+       - resultCompletion: The block of code that handles the result.
+       - book: The book object or `nil` if no book exists with this ID, or an error occurred.
+    */
     func getBook(by id: String, resultCompletion: @escaping (_ book: Book?) -> Void)
     
 }
 
 // MARK: - 
 
+/// The real web service requests handler.
 struct WebDefaultService: WebService {
 
     // MARK: - Properties
@@ -32,6 +48,14 @@ struct WebDefaultService: WebService {
 
     // MARK: - Initialization
 
+    /**
+     Creates a web service requests handler.
+
+     - Parameters:
+        - key: A Goodreads service API key.
+        - urlFactory: A service URLs factory.
+        - urlSession: An object that coordinates network data-transfer tasks.
+     */
     init(key: String, urlFactory: URLFactory = URLDefaultFactory(), urlSession: URLSession = .shared) {
         self.key = key
         self.urlFactory = urlFactory
