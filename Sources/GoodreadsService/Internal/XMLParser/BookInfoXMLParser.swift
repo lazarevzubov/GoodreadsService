@@ -1,6 +1,6 @@
 //
 //  BookInfoXMLParser.swift
-//  
+//  GoodreadsService
 //
 //  Created by Nikita Lazarev-Zubov on 25.4.2020.
 //
@@ -82,7 +82,9 @@ final class BookInfoXMLParser: NSObject, XMLParserDelegateResult {
             }
         }
         if currentElement == Element.imageURL,
-            !string.contains(ContentMarker.noImage) {
+            !string.contains(ContentMarker.noImage),
+            !authorNameExpected,
+            !similarBooksOngoing {
             imageURLString = string
         }
         if currentElement == Element.nameGeneral,
