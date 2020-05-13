@@ -13,10 +13,233 @@ final class BookInfoXMLParserTests: XCTestCase {
 
     // MARK: - Properties
 
-    static private(set) var allTests = [("testParseBookInfoResult", testParseBookInfoResult)]
+    static private(set) var allTests = [("testParseBookInfoResult", testParseBookInfoResult),
+                                        ("testNoPhotoXML", testNoPhotoXML)]
 
     // MARK: Private properties
 
+    private let noPhotoXML = """
+<?xml version="1.0" encoding="UTF-8"?>
+<GoodreadsResponse>
+  <Request>
+    <authentication>true</authentication>
+      <key><![CDATA[JQfiS9k0doIho3vm13Qxdg]]></key>
+    <method><![CDATA[book_show]]></method>
+  </Request>
+  <book>
+  <id>999999</id>
+  <title>Roommates</title>
+  <isbn><![CDATA[0380713578]]></isbn>
+  <isbn13><![CDATA[9780380713578]]></isbn13>
+  <asin><![CDATA[]]></asin>
+  <kindle_asin><![CDATA[]]></kindle_asin>
+  <marketplace_id><![CDATA[]]></marketplace_id>
+  <country_code><![CDATA[FI]]></country_code>
+  <image_url>https://s.gr-assets.com/assets/nophoto/book/111x148-bcc042a9c91a29c1d680899eff700a03.png</image_url>
+  <small_image_url>https://s.gr-assets.com/assets/nophoto/book/50x75-a91bf249278a81aabab721ef782c4a74.png</small_image_url>
+  <publication_year>1991</publication_year>
+  <publication_month>11</publication_month>
+  <publication_day>1</publication_day>
+  <publisher>Avon Books</publisher>
+  <language_code></language_code>
+  <is_ebook>false</is_ebook>
+  <description></description>
+  <work>
+  <id type="integer">3633505</id>
+  <books_count type="integer">2</books_count>
+  <best_book_id type="integer">3591235</best_book_id>
+  <reviews_count type="integer">140</reviews_count>
+  <ratings_sum type="integer">194</ratings_sum>
+  <ratings_count type="integer">44</ratings_count>
+  <text_reviews_count type="integer">3</text_reviews_count>
+  <original_publication_year type="integer">1990</original_publication_year>
+  <original_publication_month type="integer">4</original_publication_month>
+  <original_publication_day type="integer">30</original_publication_day>
+  <original_title>Roommates</original_title>
+  <original_language_id type="integer" nil="true"/>
+  <media_type nil="true"/>
+  <rating_dist>5:27|4:12|3:3|2:0|1:2|total:44</rating_dist>
+  <desc_user_id type="integer">-110</desc_user_id>
+  <default_chaptering_book_id type="integer" nil="true"/>
+  <default_description_language_code nil="true"/>
+  <work_uri>kca://work/amzn1.gr.work.v1.I3TKF-qqAQDe7F8cNRAYRg</work_uri>
+</work>
+  <average_rating>4.41</average_rating>
+  <num_pages><![CDATA[]]></num_pages>
+  <format><![CDATA[Paperback]]></format>
+  <edition_information><![CDATA[]]></edition_information>
+  <ratings_count><![CDATA[42]]></ratings_count>
+  <text_reviews_count><![CDATA[3]]></text_reviews_count>
+  <url><![CDATA[https://www.goodreads.com/book/show/999999.Roommates]]></url>
+  <link><![CDATA[https://www.goodreads.com/book/show/999999.Roommates]]></link>
+  <authors>
+<author>
+<id>502594</id>
+<name>Kathryn O. Galbraith</name>
+<role></role>
+<image_url nophoto='false'>
+<![CDATA[https://images.gr-assets.com/authors/1307134284p5/502594.jpg]]>
+</image_url>
+<small_image_url nophoto='false'>
+<![CDATA[https://images.gr-assets.com/authors/1307134284p2/502594.jpg]]>
+</small_image_url>
+<link><![CDATA[https://www.goodreads.com/author/show/502594.Kathryn_O_Galbraith]]></link>
+<average_rating>3.58</average_rating>
+<ratings_count>1239</ratings_count>
+<text_reviews_count>254</text_reviews_count>
+</author>
+</authors>
+
+    <reviews_widget>
+      <![CDATA[
+        <style>
+  #goodreads-widget {
+    font-family: georgia, serif;
+    padding: 18px 0;
+    width:565px;
+  }
+  #goodreads-widget h1 {
+    font-weight:normal;
+    font-size: 16px;
+    border-bottom: 1px solid #BBB596;
+    margin-bottom: 0;
+  }
+  #goodreads-widget a {
+    text-decoration: none;
+    color:#660;
+  }
+  iframe{
+    background-color: #fff;
+  }
+  #goodreads-widget a:hover { text-decoration: underline; }
+  #goodreads-widget a:active {
+    color:#660;
+  }
+  #gr_footer {
+    width: 100%;
+    border-top: 1px solid #BBB596;
+    text-align: right;
+  }
+  #goodreads-widget .gr_branding{
+    color: #382110;
+    font-size: 11px;
+    text-decoration: none;
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  }
+</style>
+<div id="goodreads-widget">
+  <div id="gr_header"><h1><a rel="nofollow" href="https://www.goodreads.com/book/show/999999.Roommates">Roommates Reviews</a></h1></div>
+  <iframe id="the_iframe" src="https://www.goodreads.com/api/reviews_widget_iframe?did=DEVELOPER_ID&amp;format=html&amp;isbn=0380713578&amp;links=660&amp;min_rating=&amp;review_back=fff&amp;stars=000&amp;text=000" width="565" height="400" frameborder="0"></iframe>
+  <div id="gr_footer">
+    <a class="gr_branding" target="_blank" rel="nofollow noopener noreferrer" href="https://www.goodreads.com/book/show/999999.Roommates?utm_medium=api&amp;utm_source=reviews_widget">Reviews from Goodreads.com</a>
+  </div>
+</div>
+
+      ]]>
+    </reviews_widget>
+  <popular_shelves>
+      <shelf name="to-read" count="70"/>
+      <shelf name="fiction" count="2"/>
+      <shelf name="read-years-ago" count="1"/>
+      <shelf name="to-read-fantasy" count="1"/>
+      <shelf name="science-fiction-fantasy" count="1"/>
+      <shelf name="saw-as-movie" count="1"/>
+      <shelf name="epic-fantasy" count="1"/>
+      <shelf name="classics" count="1"/>
+      <shelf name="favorites" count="1"/>
+      <shelf name="fantasy" count="1"/>
+      <shelf name="read-to-kids" count="1"/>
+      <shelf name="kiddos" count="1"/>
+      <shelf name="book-lust" count="1"/>
+      <shelf name="currently-reading" count="1"/>
+      <shelf name="book-crush" count="1"/>
+      <shelf name="best-books-for-kids-5-11" count="1"/>
+      <shelf name="特價精裝小說區" count="1"/>
+  </popular_shelves>
+  <book_links>
+    <book_link>
+  <id>8</id>
+  <name>Libraries</name>
+  <link>https://www.goodreads.com/book_link/follow/8</link>
+</book_link>
+
+  </book_links>
+  <buy_links>
+    <buy_link>
+<id>1</id>
+<name>Amazon</name>
+<link>https://www.goodreads.com/book_link/follow/1</link>
+</buy_link>
+<buy_link>
+<id>10</id>
+<name>Audible</name>
+<link>https://www.goodreads.com/book_link/follow/10</link>
+</buy_link>
+<buy_link>
+<id>3</id>
+<name>Barnes &amp; Noble</name>
+<link>https://www.goodreads.com/book_link/follow/3</link>
+</buy_link>
+<buy_link>
+<id>1027</id>
+<name>Walmart eBooks</name>
+<link>https://www.goodreads.com/book_link/follow/1027</link>
+</buy_link>
+<buy_link>
+<id>2102</id>
+<name>Apple Books</name>
+<link>https://www.goodreads.com/book_link/follow/2102</link>
+</buy_link>
+<buy_link>
+<id>8036</id>
+<name>Google Play</name>
+<link>https://www.goodreads.com/book_link/follow/8036</link>
+</buy_link>
+<buy_link>
+<id>4</id>
+<name>Abebooks</name>
+<link>https://www.goodreads.com/book_link/follow/4</link>
+</buy_link>
+<buy_link>
+<id>882</id>
+<name>Book Depository</name>
+<link>https://www.goodreads.com/book_link/follow/882</link>
+</buy_link>
+<buy_link>
+<id>5</id>
+<name>Alibris</name>
+<link>https://www.goodreads.com/book_link/follow/5</link>
+</buy_link>
+<buy_link>
+<id>9</id>
+<name>Indigo</name>
+<link>https://www.goodreads.com/book_link/follow/9</link>
+</buy_link>
+<buy_link>
+<id>107</id>
+<name>Better World Books</name>
+<link>https://www.goodreads.com/book_link/follow/107</link>
+</buy_link>
+<buy_link>
+<id>7</id>
+<name>IndieBound</name>
+<link>https://www.goodreads.com/book_link/follow/7</link>
+</buy_link>
+<buy_link>
+<id>17439</id>
+<name>Amazon AU</name>
+<link>https://www.goodreads.com/book_link/follow/17439</link>
+</buy_link>
+
+  </buy_links>
+  <series_works>
+
+  </series_works>
+</book>
+
+</GoodreadsResponse>
+
+"""
     private let xml = """
 <?xml version="1.0" encoding="UTF-8"?>
 <GoodreadsResponse>
@@ -1030,6 +1253,18 @@ final class BookInfoXMLParserTests: XCTestCase {
                                                    "99219"])
 
         XCTAssertEqual(result, expectedResult)
+    }
+
+    func testNoPhotoXML() {
+        let data = noPhotoXML.data(using: .utf8)!
+        let systemParser = XMLParser(data: data)
+
+        let parser = BookInfoXMLParser()
+        systemParser.delegate = parser
+
+        systemParser.parse()
+        let result = parser.result
+        XCTAssertNil(result!.imageURL)
     }
 
 }
