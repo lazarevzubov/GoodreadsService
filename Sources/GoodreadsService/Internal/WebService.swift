@@ -36,7 +36,7 @@ protocol WebService {
 // MARK: - 
 
 /// The real web service requests handler.
-struct WebDefaultService: WebService {
+struct WebDefaultService<Session: WebServiceSession>: WebService {
 
     // MARK: - Properties
 
@@ -44,7 +44,7 @@ struct WebDefaultService: WebService {
 
     private let key: String
     private let urlFactory: URLFactory
-    private let urlSession: URLSession
+    private let urlSession: Session
 
     // MARK: - Initialization
 
@@ -56,7 +56,9 @@ struct WebDefaultService: WebService {
         - urlFactory: A service URLs factory.
         - urlSession: An object that coordinates network data-transfer tasks.
      */
-    init(key: String, urlFactory: URLFactory = URLDefaultFactory(), urlSession: URLSession = .shared) {
+    init(key: String, urlSession: Session, urlFactory: URLFactory = URLDefaultFactory()) {
+        // TODO: Find a way to provide a default value to urlSession parameter.
+        
         self.key = key
         self.urlFactory = urlFactory
         self.urlSession = urlSession

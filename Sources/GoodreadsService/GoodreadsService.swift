@@ -5,6 +5,8 @@
 //  Created by Nikita Lazarev-Zubov on 15.4.2020.
 //
 
+import Foundation
+
 /**
  The entry point to the service.
 
@@ -25,7 +27,7 @@ public struct GoodreadsService {
      - Parameter key: A Goodreads service API key.
      */
     public init(key: String) {
-        let webService = WebDefaultService(key: key)
+        let webService = WebDefaultService(key: key, urlSession: URLSession.shared)
         self.init(webService: webService)
     }
 
