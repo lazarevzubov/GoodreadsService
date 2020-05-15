@@ -78,3 +78,7 @@ final class SearchBooksXMLParser: NSObject, XMLParserDelegateResult {
     }
 
 }
+
+// MARK: - EmptyRepresentable
+
+extension Array: EmptyRepresentable { }

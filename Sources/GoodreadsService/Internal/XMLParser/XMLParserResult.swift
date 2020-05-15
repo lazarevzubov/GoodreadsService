@@ -7,11 +7,23 @@
 
 import Foundation
 
+// TODO: HeaderDoc.
+protocol EmptyRepresentable {
+
+    // MARK: - Initialization
+
+    // TODO: HeaderDoc.
+    init()
+
+}
+
+// MARK: -
+
 /// The interface an XML parser uses to inform its delegate about the content of the parsed document.
 protocol XMLParserDelegateResult: XMLParserDelegate {
 
     /// The parser result object type.
-    associatedtype Result
+    associatedtype Result: EmptyRepresentable
 
     // MARK: - Properties
 

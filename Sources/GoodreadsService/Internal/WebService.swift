@@ -88,6 +88,8 @@ struct WebDefaultService<Session: WebServiceSession>: WebService {
         _ = urlSession.dataTask(with: url) { data, _, _ in
             guard let data = data else {
                 // TODO: Handle errors.
+                resultCompletion(Parser.Result())
+                
                 return
             }
             self.handleXML(data, parser: parser, resultCompletion: resultCompletion)

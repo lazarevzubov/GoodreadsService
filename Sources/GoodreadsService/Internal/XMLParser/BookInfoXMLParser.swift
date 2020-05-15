@@ -154,3 +154,17 @@ final class BookInfoXMLParser: NSObject, XMLParserDelegateResult {
     }
 
 }
+
+// MARK: - EmptyRepresentable
+
+extension Optional: EmptyRepresentable {
+
+    // MARK: - Initialization
+
+    // MARK: EmptyRepresentable protocol initialization
+
+    init() {
+        self = .none
+    }
+
+}
