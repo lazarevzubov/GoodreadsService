@@ -31,9 +31,8 @@ public struct GoodreadsService {
         self.init(webService: webService)
     }
 
-    // MARK: Private initialization
-
-    private init(webService: WebService) {
+    // TODO: HeaderDoc.
+    init(webService: WebService) {
         self.webService = webService
     }
 
