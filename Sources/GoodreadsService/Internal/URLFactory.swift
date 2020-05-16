@@ -56,7 +56,7 @@ struct URLDefaultFactory: URLFactory {
 
         guard let url = urlComponents.url else {
             // TODO: Handle properly, though not going to happen really.
-            fatalError()
+            fatalError("\(#file).\(#line): Unexpectedly wrong URL parameters – a programmer's error.")
         }
 
         return url
@@ -73,7 +73,7 @@ struct URLDefaultFactory: URLFactory {
 
         guard let url = urlComponents.url else {
             // TODO: Handle properly, though not going to happen really.
-            fatalError()
+            fatalError("\(#file).\(#line): Unexpectedly wrong URL parameters – a programmer's error.")
         }
 
         return url

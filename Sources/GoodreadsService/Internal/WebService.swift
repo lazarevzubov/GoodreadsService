@@ -87,7 +87,7 @@ struct WebDefaultService<Session: WebServiceSession>: WebService {
                                                               resultCompletion: @escaping (Parser.Result) -> Void) {
         _ = urlSession.dataTask(with: url) { data, _, _ in
             guard let data = data else {
-                // TODO: Handle errors.
+                // TODO: Handle error.
                 resultCompletion(Parser.Result())
                 
                 return
