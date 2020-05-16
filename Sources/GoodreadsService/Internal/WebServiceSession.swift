@@ -7,12 +7,12 @@
 
 import Foundation
 
-// TODO: HeaderDoc.
+/// Represents a single web service task.
 protocol WebServiceTask {
 
     // MARK: - Methods
 
-    // TODO: HeaderDoc.
+    /// Starts the task.
     func resume()
 
 }
@@ -23,15 +23,29 @@ extension URLSessionTask: WebServiceTask { }
 
 // MARK: -
 
-// TODO: HeaderDoc.
+/// Coordinates a group of web service tasks.
 protocol WebServiceSession {
 
     associatedtype Task: WebServiceTask
 
     // MARK: - Methods
 
-    // TODO: HeaderDoc.
-    func dataTask(with url: URL, completionHandler: @escaping (Data?, URLResponse?, Error?) -> Void) -> Task
+    /**
+     Creates a task that retrieves the contents of the specified URL, then calls a handler upon completion.
+
+     - Parameters:
+        - url: The URL to be retrieved.
+        - completionHandler: The completion handler to call when the load request is complete.
+        - data: The data returned by the server.
+        - response: An object that provides response metadata, such as HTTP headers and status code.
+        - error: An error object that indicates why the request failed, or `nil` if the request was successful.
+
+     - Returns: The new session data task.
+     */
+    func dataTask(with url: URL,
+                  completionHandler: @escaping (_ data: Data?,
+                                                _ response: URLResponse?,
+                                                _ error: Error?) -> Void) -> Task
 
 }
 

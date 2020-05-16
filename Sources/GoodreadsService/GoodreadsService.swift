@@ -31,7 +31,10 @@ public struct GoodreadsService {
         self.init(webService: webService)
     }
 
-    // TODO: HeaderDoc.
+    /**
+     Creates the service entry point using the pre-configured web service.
+     - Parameter webService: Handles requests to a web service.
+     */
     init(webService: WebService) {
         self.webService = webService
     }

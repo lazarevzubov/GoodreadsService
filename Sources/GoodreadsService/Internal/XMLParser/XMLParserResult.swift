@@ -7,12 +7,12 @@
 
 import Foundation
 
-// TODO: HeaderDoc.
+/// A type that can be created with an initializer without arguments.
 protocol EmptyRepresentable {
 
     // MARK: - Initialization
 
-    // TODO: HeaderDoc.
+    /// Creates an emoty or generic instance of the type.
     init()
 
 }
