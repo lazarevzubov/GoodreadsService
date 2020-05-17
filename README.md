@@ -14,7 +14,7 @@ GoodreadsService is a Swift Package and can be added to a project by the help of
 
 `GoodreadsService` class is the one. It's created using only your own developer API key:
 
-```
+```swift
 let key = "YOUR_DEVELOPER_KEY"
 let service = GoodreadsService(key: key)
 ```
@@ -32,7 +32,7 @@ Books are represented by the `Book` type values. They consist of:
 
 Books can be queried by a book title, an author name, or any part of either.
 
-```
+```swift
 let query = "Harry Potter"
 service.searchBooks(query) { bookIDs in
     // ...
@@ -45,7 +45,7 @@ The completion argument value returned is an array of book ID strings. If nothin
 
 Book info can be retrieved using IDs returned by the search books query.
 
-```
+```swift
 let bookID = "3"
 service.getBook(by: bookID) { book in
     // ...
