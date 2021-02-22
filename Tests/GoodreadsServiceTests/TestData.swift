@@ -1674,30 +1674,32 @@ enum TestResult {
 
         // MARK: - Properties
 
-        static let regularResult = Book(authors: ["Orson Scott Card",
-                                                  "Stefan Rudnicki",
-                                                  "Harlan Ellison"],
-                                        title: "Ender\'s Game",
-                                        id: "375802",
-                                        imageURL: URL(string: "https://i.gr-assets.com/images/S/compressed.photo.goodreads.com/books/1408303130l/375802._SY75_.jpg"),
-                                        similarBookIDs: ["44767458",
-                                                         "386162",
-                                                         "5907",
-                                                         "29579",
-                                                         "18007564",
-                                                         "9969571",
-                                                         "40961427",
-                                                         "13496",
-                                                         "3",
-                                                         "13079982",
-                                                         "34",
-                                                         "113436",
-                                                         "3636",
-                                                         "2767052",
-                                                         "36402034",
-                                                         "5129",
-                                                         "40604658",
-                                                         "99219"])
+        static let regularResult = Book(
+            authors: ["Orson Scott Card",
+                      "Stefan Rudnicki",
+                      "Harlan Ellison"],
+            title: "Ender\'s Game",
+            id: "375802",
+            imageURL: URL(string: "https://i.gr-assets.com/images/S/compressed.photo.goodreads.com/books/1408303130l/375802._SY160_.jpg"),
+            similarBookIDs: ["44767458",
+                             "386162",
+                             "5907",
+                             "29579",
+                             "18007564",
+                             "9969571",
+                             "40961427",
+                             "13496",
+                             "3",
+                             "13079982",
+                             "34",
+                             "113436",
+                             "3636",
+                             "2767052",
+                             "36402034",
+                             "5129",
+                             "40604658",
+                             "99219"]
+        )
 
     }
 
