@@ -22,6 +22,8 @@ final class BookInfoXMLParser: NSObject, XMLParserDelegateResult {
         var imageURL: URL?
         if let imageURLString = imageURLString {
             imageURL = URL(string: imageURLString)
+        } else if let smallImageURLString = smallImageURLString {
+            imageURL = URL(string: smallImageURLString)
         }
 
         return Book(authors: authors,
@@ -44,6 +46,7 @@ final class BookInfoXMLParser: NSObject, XMLParserDelegateResult {
     private var similarBookIDExpected = false
     private var similarBooksIDs = [String]()
     private var similarBooksOngoing = false
+    private var smallImageURLString: String?
     private var title = ""
 
     // MARK: - Methods
@@ -86,6 +89,12 @@ final class BookInfoXMLParser: NSObject, XMLParserDelegateResult {
             !authorNameExpected,
             !similarBooksOngoing {
             imageURLString = string
+        }
+        if currentElement == Element.smallImageURL,
+            !string.contains(ContentMarker.noImage),
+            !authorNameExpected,
+            !similarBooksOngoing {
+            smallImageURLString = string
         }
         if currentElement == Element.nameGeneral,
             authorNameExpected,
@@ -135,10 +144,11 @@ final class BookInfoXMLParser: NSObject, XMLParserDelegateResult {
 
         static let authors = "authors"
         static let idGeneral = "id"
-        static let imageURL = "small_image_url"
+        static let imageURL = "image_url"
         static let mainBook = "book"
         static let nameGeneral = "name"
         static let similarBooks = "similar_books"
+        static let smallImageURL = "small_image_url"
         static let title = "original_title"
 
     }
