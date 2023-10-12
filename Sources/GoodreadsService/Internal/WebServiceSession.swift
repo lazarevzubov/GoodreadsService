@@ -43,12 +43,16 @@ protocol WebServiceSession {
      - Returns: The new session data task.
      */
     func dataTask(with url: URL,
-                  completionHandler: @escaping (_ data: Data?,
-                                                _ response: URLResponse?,
-                                                _ error: Error?) -> Void) -> Task
+                  completionHandler: @Sendable @escaping (_ data: Data?,
+                                                          _ response: URLResponse?,
+                                                          _ error: Error?) -> Void) -> Task
 
 }
 
 // MARK: - WebServiceSession
 
-extension URLSession: WebServiceSession { }
+extension URLSession: WebServiceSession {
+
+    typealias Task = URLSessionDataTask
+
+}

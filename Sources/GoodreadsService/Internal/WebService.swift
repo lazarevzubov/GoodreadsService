@@ -85,15 +85,17 @@ struct WebDefaultService<Session: WebServiceSession>: WebService {
     private func runDataTask<Parser: XMLParserDelegateResult>(with url: URL,
                                                               parser: Parser,
                                                               resultCompletion: @escaping (Parser.Result) -> Void) {
-        _ = urlSession.dataTask(with: url) { data, _, _ in
-            guard let data = data else {
-                // TODO: Handle error.
-                resultCompletion(Parser.Result())
-                
-                return
+        urlSession
+            .dataTask(with: url) { data, _, _ in
+                guard let data = data else {
+                    // TODO: Handle error.
+                    resultCompletion(Parser.Result())
+
+                    return
+                }
+                self.handleXML(data, parser: parser, resultCompletion: resultCompletion)
             }
-            self.handleXML(data, parser: parser, resultCompletion: resultCompletion)
-        }.resume()
+            .resume()
     }
 
     private func handleXML<Parser: XMLParserDelegateResult>(_ data: Data,
