@@ -12,25 +12,17 @@ protocol URLFactory {
 
     // MARK: - Methods
 
-    /**
-     Creates the URL for the specified search query.
-
-     - Parameters:
-        - key: A Goodreads service API key.
-        - query: The search query.
-
-     - Returns: The URL for the specified search query.
-     */
+    /// Creates the URL for the specified search query.
+    /// - Parameters:
+    ///   - key: A Goodreads service API key.
+    ///   - query: The search query.
+    /// - Returns: The URL for the specified search query.
     func makeSearchBooksURL(key: String, query: String) -> URL
-    /**
-    Creates the URL for the specified book info request.
-
-    - Parameters:
-       - key: A Goodreads service API key.
-       - id: The ID of the book.
-
-    - Returns: The URL for the specified book info request.
-    */
+    /// Creates the URL for the specified book info request.
+    /// - Parameters:
+    ///   - key: A Goodreads service API key.
+    ///   - id: The ID of the book.
+    /// - Returns: The URL for the specified book info request.
     func makeBookInfoURL(key: String, id: String) -> URL
 
 }
@@ -55,8 +47,7 @@ struct URLDefaultFactory: URLFactory {
                                     URLQueryItem(name: Component.Query.query, value: query)]
 
         guard let url = urlComponents.url else {
-            // TODO: Handle properly, though not going to happen really.
-            fatalError("\(#file).\(#line): Unexpectedly wrong URL parameters – a programmer's error.")
+            fatalError("\(#file).\(#line): Unexpectedly wrong URL parameters—a programmer's error.")
         }
 
         return url
@@ -72,8 +63,7 @@ struct URLDefaultFactory: URLFactory {
         urlComponents.queryItems = [URLQueryItem(name: Component.Query.key, value: key)]
 
         guard let url = urlComponents.url else {
-            // TODO: Handle properly, though not going to happen really.
-            fatalError("\(#file).\(#line): Unexpectedly wrong URL parameters – a programmer's error.")
+            fatalError("\(#file).\(#line): Unexpectedly wrong URL parameters—a programmer's error.")
         }
 
         return url

@@ -30,18 +30,14 @@ protocol WebServiceSession {
 
     // MARK: - Methods
 
-    /**
-     Creates a task that retrieves the contents of the specified URL, then calls a handler upon completion.
-
-     - Parameters:
-        - url: The URL to be retrieved.
-        - completionHandler: The completion handler to call when the load request is complete.
-        - data: The data returned by the server.
-        - response: An object that provides response metadata, such as HTTP headers and status code.
-        - error: An error object that indicates why the request failed, or `nil` if the request was successful.
-
-     - Returns: The new session data task.
-     */
+    /// Creates a task that retrieves the contents of the specified URL, then calls a handler upon completion.
+    /// - Parameters:
+    ///   - url: The URL to be retrieved.
+    ///   - completionHandler: The completion handler to call when the load request is complete.
+    ///   - data: The data returned by the server.
+    ///   - response: An object that provides response metadata, such as HTTP headers and status code.
+    ///   - error: An error object that indicates why the request failed, or `nil` if the request was successful.
+    /// - Returns: The new session data task.
     func dataTask(with url: URL,
                   completionHandler: @Sendable @escaping (_ data: Data?,
                                                           _ response: URLResponse?,

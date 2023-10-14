@@ -12,23 +12,17 @@ protocol WebService {
     
     // MARK: - Methods
 
-    /**
-    Sends a search request to the service.
-
-    - Parameters:
-       - query: The query to handle.
-       - resultCompletion: The block of code that handles the result.
-       - ids: The resulting array of book IDs. If no results or an error occurred, the array is empty.
-    */
+    /// Sends a search request to the service.
+    /// - Parameters:
+    ///   - query: The query to handle.
+    ///   - resultCompletion: The block of code that handles the result.
+    ///   - ids: The resulting array of book IDs. If no results or an error occurred, the array is empty.
     func searchBooks(_ query: String, resultCompletion: @escaping (_ ids: [String]) -> Void)
-    /**
-    Sends the book info request.
-
-    - Parameters:
-       - id: The ID of the book.
-       - resultCompletion: The block of code that handles the result.
-       - book: The book object or `nil` if no book exists with this ID, or an error occurred.
-    */
+    /// Sends the book info request.
+    /// - Parameters:
+    ///   - id: The ID of the book.
+    ///   - resultCompletion: The block of code that handles the result.
+    ///   - book: The book object or `nil` if no book exists with this ID, or an error occurred.
     func getBook(by id: String, resultCompletion: @escaping (_ book: Book?) -> Void)
     
 }
@@ -48,14 +42,11 @@ struct WebDefaultService<Session: WebServiceSession>: WebService {
 
     // MARK: - Initialization
 
-    /**
-     Creates a web service requests handler.
-
-     - Parameters:
-        - key: A Goodreads service API key.
-        - urlFactory: A service URLs factory.
-        - urlSession: An object that coordinates network data-transfer tasks.
-     */
+    /// Creates a web service requests handler.
+    /// - Parameters:
+    ///   - key: A Goodreads service API key.
+    ///   - urlFactory: A service URLs factory.
+    ///   - urlSession: An object that coordinates network data-transfer tasks.
     init(key: String, urlSession: Session, urlFactory: URLFactory = URLDefaultFactory()) {
         // TODO: Find a way to provide a default value to urlSession parameter.
         
@@ -71,12 +62,14 @@ struct WebDefaultService<Session: WebServiceSession>: WebService {
     func searchBooks(_ query: String, resultCompletion: @escaping (_ ids: [String]) -> Void) {
         let url = urlFactory.makeSearchBooksURL(key: key, query: query)
         let parser = SearchBooksXMLParser()
+
         runDataTask(with: url, parser: parser, resultCompletion: resultCompletion)
     }
     
     func getBook(by id: String, resultCompletion: @escaping (_ book: Book?) -> Void) {
         let url = urlFactory.makeBookInfoURL(key: key, id: id)
         let parser = BookInfoXMLParser()
+
         runDataTask(with: url, parser: parser, resultCompletion: resultCompletion)
     }
 
@@ -87,7 +80,7 @@ struct WebDefaultService<Session: WebServiceSession>: WebService {
                                                               resultCompletion: @escaping (Parser.Result) -> Void) {
         urlSession
             .dataTask(with: url) { data, _, _ in
-                guard let data = data else {
+                guard let data else {
                     // TODO: Handle error.
                     resultCompletion(Parser.Result())
 

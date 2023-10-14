@@ -22,16 +22,12 @@ final class WebDefaultServiceTests: XCTestCase {
         let session = WebServiceMockDataSession(data: data)
         let service = WebDefaultService(key: "Key", urlSession: session, urlFactory: URLStubFactory())
 
-        var result: [String]?
-
         let expectation = XCTestExpectation()
-        service.searchBooks("Query") { bookIDs in
-            result = bookIDs
+        service.searchBooks("Query") {
+            XCTAssertEqual($0, TestResult.SearchBooks.regular)
             expectation.fulfill()
         }
         wait(for: [expectation], timeout: 1.0)
-
-        XCTAssertEqual(result, TestResult.SearchBooks.regular)
     }
 
     func testSearchBookFailure() {
@@ -39,16 +35,12 @@ final class WebDefaultServiceTests: XCTestCase {
         let session = WebServiceMockErrorSession(error: error)
         let service = WebDefaultService(key: "Key", urlSession: session, urlFactory: URLStubFactory())
 
-        var result: [String]?
-
         let expectation = XCTestExpectation()
-        service.searchBooks("Query") { bookIDs in
-            result = bookIDs
+        service.searchBooks("Query") {
+            XCTAssertTrue($0.isEmpty)
             expectation.fulfill()
         }
         wait(for: [expectation], timeout: 1.0)
-
-        XCTAssertTrue(result!.isEmpty)
     }
 
     func testBookInfoSuccess() {
@@ -56,16 +48,12 @@ final class WebDefaultServiceTests: XCTestCase {
         let session = WebServiceMockDataSession(data: data)
         let service = WebDefaultService(key: "Key", urlSession: session, urlFactory: URLStubFactory())
 
-        var result: Book?
-
         let expectation = XCTestExpectation()
-        service.getBook(by: "ID") { book in
-            result = book
+        service.getBook(by: "ID") {
+            XCTAssertEqual($0, TestResult.BookInfo.regularResult)
             expectation.fulfill()
         }
         wait(for: [expectation], timeout: 1.0)
-
-        XCTAssertEqual(result, TestResult.BookInfo.regularResult)
     }
 
     func testBookInfoFailure() {
@@ -73,16 +61,12 @@ final class WebDefaultServiceTests: XCTestCase {
         let session = WebServiceMockErrorSession(error: error)
         let service = WebDefaultService(key: "Key", urlSession: session, urlFactory: URLStubFactory())
 
-        var result: Book?
-
         let expectation = XCTestExpectation()
-        service.getBook(by: "ID") { book in
-            result = book
+        service.getBook(by: "ID") {
+            XCTAssertNil($0)
             expectation.fulfill()
         }
         wait(for: [expectation], timeout: 1.0)
-
-        XCTAssertNil(result)
     }
 
 }
@@ -188,7 +172,7 @@ private struct WebServiceMockErrorSession: WebServiceSession {
 
     func dataTask(with url: URL,
                   completionHandler: @escaping (Data?, URLResponse?, Error?) -> Void) -> WebServiceMockErrorTask {
-        return WebServiceMockErrorTask(error: error, completionHandler: completionHandler)
+        WebServiceMockErrorTask(error: error, completionHandler: completionHandler)
     }
 
 }
@@ -202,11 +186,11 @@ private struct URLStubFactory: URLFactory {
     // MARK: URLFactory protocol methods
 
     func makeSearchBooksURL(key: String, query: String) -> URL {
-        return URL(string: "https://www.apple.com")!
+        URL(string: "https://www.apple.com")!
     }
 
     func makeBookInfoURL(key: String, id: String) -> URL {
-        return URL(string: "https://www.apple.com")!
+        URL(string: "https://www.apple.com")!
     }
 
 }
