@@ -34,9 +34,7 @@ Books can be queried by a book title, an author name, or any part of either.
 
 ```swift
 let query = "Harry Potter"
-service.searchBooks(query) { bookIDs in
-    // ...
-}
+let bookIDs = await service.searchBooks(query)
 ```
 
 The completion argument value returned is an array of book ID strings. If nothing is found or an error has occurred, the empty array is passed.
@@ -47,9 +45,7 @@ Book info can be retrieved using IDs returned by the search books query.
 
 ```swift
 let bookID = "3"
-service.getBook(by: bookID) { book in
-    // ...
-}
+let book = await service.getBook(by: bookID)
 ```
 
 The completion argument value returned is a book with the specified ID. If no book with the ID found or an error has occurred, `nil` is passed. 
