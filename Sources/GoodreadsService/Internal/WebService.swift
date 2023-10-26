@@ -13,24 +13,20 @@ protocol WebService {
     // MARK: - Methods
 
     /// Sends a search request to the service.
-    /// - Parameters:
-    ///   - query: The query to handle.
-    ///   - resultCompletion: The block of code that handles the result.
-    ///   - ids: The resulting array of book IDs. If no results or an error occurred, the array is empty.
-    func searchBooks(_ query: String, resultCompletion: @escaping (_ ids: [String]) -> Void)
+    /// - Parameter query: The query to handle.
+    /// - Returns: The resulting array of book IDs. If no results or an error occurred, the array is empty.
+    func searchBooks(_ query: String) async -> [String]
     /// Sends the book info request.
-    /// - Parameters:
-    ///   - id: The ID of the book.
-    ///   - resultCompletion: The block of code that handles the result.
-    ///   - book: The book object or `nil` if no book exists with this ID, or an error occurred.
-    func getBook(by id: String, resultCompletion: @escaping (_ book: Book?) -> Void)
-    
+    /// - Parameter id: The ID of the book.
+    /// - Returns: The book object or `nil` if no book exists with this ID, or an error occurred.
+    func getBook(by id: String) async -> Book?
+
 }
 
 // MARK: - 
 
 /// The real web service requests handler.
-struct WebDefaultService<Session: WebServiceSession>: WebService {
+struct WebDefaultService: WebService {
 
     // MARK: - Properties
 
@@ -38,7 +34,7 @@ struct WebDefaultService<Session: WebServiceSession>: WebService {
 
     private let key: String
     private let urlFactory: URLFactory
-    private let urlSession: Session
+    private let urlSession: WebServiceSession
 
     // MARK: - Initialization
 
@@ -47,7 +43,7 @@ struct WebDefaultService<Session: WebServiceSession>: WebService {
     ///   - key: A Goodreads service API key.
     ///   - urlFactory: A service URLs factory.
     ///   - urlSession: An object that coordinates network data-transfer tasks.
-    init(key: String, urlSession: Session, urlFactory: URLFactory = URLDefaultFactory()) {
+    init(key: String, urlSession: WebServiceSession, urlFactory: URLFactory = URLDefaultFactory()) {
         // TODO: Find a way to provide a default value to urlSession parameter.
         
         self.key = key
@@ -59,46 +55,34 @@ struct WebDefaultService<Session: WebServiceSession>: WebService {
     
     // MARK: WebService protocol methods
     
-    func searchBooks(_ query: String, resultCompletion: @escaping (_ ids: [String]) -> Void) {
+    func searchBooks(_ query: String) async -> [String] {
         let url = urlFactory.makeSearchBooksURL(key: key, query: query)
         let parser = SearchBooksXMLParser()
 
-        runDataTask(with: url, parser: parser, resultCompletion: resultCompletion)
+        return (try? await parseData(from: url, parser: parser)) ?? []
     }
     
-    func getBook(by id: String, resultCompletion: @escaping (_ book: Book?) -> Void) {
+    func getBook(by id: String) async -> Book? {
         let url = urlFactory.makeBookInfoURL(key: key, id: id)
         let parser = BookInfoXMLParser()
 
-        runDataTask(with: url, parser: parser, resultCompletion: resultCompletion)
+        return try? await parseData(from: url, parser: parser)
     }
 
     // MARK: Private methods
 
-    private func runDataTask<Parser: XMLParserDelegateResult>(with url: URL,
-                                                              parser: Parser,
-                                                              resultCompletion: @escaping (Parser.Result) -> Void) {
-        urlSession
-            .dataTask(with: url) { data, _, _ in
-                guard let data else {
-                    // TODO: Handle error.
-                    resultCompletion(Parser.Result())
-
-                    return
-                }
-                self.handleXML(data, parser: parser, resultCompletion: resultCompletion)
-            }
-            .resume()
+    private func parseData<Parser: XMLParserDelegateResult>(from url: URL,
+                                                            parser: Parser) async throws -> Parser.Result {
+        let (data, _) = try await urlSession.data(from: url)
+        return handleXML(data, parser: parser)
     }
 
-    private func handleXML<Parser: XMLParserDelegateResult>(_ data: Data,
-                                                            parser: Parser,
-                                                            resultCompletion: @escaping (Parser.Result) -> Void) {
+    private func handleXML<Parser: XMLParserDelegateResult>(_ data: Data, parser: Parser) -> Parser.Result {
         let systemParser = XMLParser(data: data)
         systemParser.delegate = parser
         systemParser.parse()
 
-        resultCompletion(parser.result)
+        return parser.result
     }
     
 }

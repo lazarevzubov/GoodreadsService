@@ -13,35 +13,23 @@ final class GoodreadsServiceTests: XCTestCase {
 
     // MARK: - Methods
 
-    func testSearchBooks() {
+    func testSearchBooks() async {
         let webService = WebMockService()
         let service = GoodreadsService(webService: webService)
 
         let query = "Query"
-
-        let expectation = XCTestExpectation()
-        let completion: ([String]) -> Void = { _ in
-            expectation.fulfill()
-        }
-        service.searchBooks(query, resultCompletion: completion)
-
-        wait(for: [expectation], timeout: 1.0)
+        _ = await service.searchBooks(query)
+        
         XCTAssertEqual(webService.query, query)
     }
 
-    func testGetBook() {
+    func testGetBook() async {
         let webService = WebMockService()
         let service = GoodreadsService(webService: webService)
 
         let id = "1"
+        _ = await service.getBook(by: id)
 
-        let expectation = XCTestExpectation()
-        let completion: (Book?) -> Void = { _ in
-            expectation.fulfill()
-        }
-        service.getBook(by: id, resultCompletion: completion)
-
-        wait(for: [expectation], timeout: 1.0)
         XCTAssertEqual(webService.id, id)
     }
 
@@ -60,14 +48,14 @@ private final class WebMockService: WebService {
 
     // MARK: WebService protocol methods
 
-    func searchBooks(_ query: String, resultCompletion: @escaping ([String]) -> Void) {
+    func searchBooks(_ query: String) async -> [String] {
         self.query = query
-        resultCompletion([])
+        return []
     }
 
-    func getBook(by id: String, resultCompletion: @escaping (Book?) -> Void) {
+    func getBook(by id: String) async -> Book? {
         self.id = id
-        resultCompletion(nil)
+        return nil
     }
 
 }
