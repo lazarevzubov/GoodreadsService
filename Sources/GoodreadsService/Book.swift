@@ -25,18 +25,16 @@ public struct Book {
 
     // MARK: - Initilization
 
-    /**
-     Creates the book object.
-
-     This initializer is made public mainly for your app testing purposes.
-
-     - Parameters:
-        - authors: Authors of the book.
-        - title: The book title.
-        - id: The ID of the book.
-        - imageURL: The book cover.
-        - similarBookIDs: Similar books IDs.
-     */
+    /// Creates the book object.
+    ///
+    /// This initializer is made public mainly for your app testing purposes.
+    ///
+    /// - Parameters:
+    ///   - authors: Authors of the book.
+    ///   - title: The book title.
+    ///   - id: The ID of the book.
+    ///   - imageURL: The book cover.
+    ///   - similarBookIDs: Similar books IDs.
     public init(authors: [String], title: String, id: String, imageURL: URL? = nil, similarBookIDs: [String] = []) {
         self.authors = authors
         self.title = title

@@ -17,128 +17,40 @@ final class WebDefaultServiceTests: XCTestCase {
 
     // MARK: - Methods
 
-    func testSearchBooksSuccess() {
+    func testSearchBooksSuccess() async {
         let data = TestData.SearchBooks.regularXML
         let session = WebServiceMockDataSession(data: data)
         let service = WebDefaultService(key: "Key", urlSession: session, urlFactory: URLStubFactory())
 
-        var result: [String]?
-
-        let expectation = XCTestExpectation()
-        service.searchBooks("Query") { bookIDs in
-            result = bookIDs
-            expectation.fulfill()
-        }
-        wait(for: [expectation], timeout: 1.0)
-
+        let result = await service.searchBooks("Query")
         XCTAssertEqual(result, TestResult.SearchBooks.regular)
     }
 
-    func testSearchBookFailure() {
+    func testSearchBookFailure() async {
         let error = MockError()
         let session = WebServiceMockErrorSession(error: error)
         let service = WebDefaultService(key: "Key", urlSession: session, urlFactory: URLStubFactory())
 
-        var result: [String]?
-
-        let expectation = XCTestExpectation()
-        service.searchBooks("Query") { bookIDs in
-            result = bookIDs
-            expectation.fulfill()
-        }
-        wait(for: [expectation], timeout: 1.0)
-
-        XCTAssertTrue(result!.isEmpty)
+        let result = await service.searchBooks("Query")
+        XCTAssertTrue(result.isEmpty)
     }
 
-    func testBookInfoSuccess() {
+    func testBookInfoSuccess() async {
         let data = TestData.BookInfo.regularXML
         let session = WebServiceMockDataSession(data: data)
         let service = WebDefaultService(key: "Key", urlSession: session, urlFactory: URLStubFactory())
 
-        var result: Book?
-
-        let expectation = XCTestExpectation()
-        service.getBook(by: "ID") { book in
-            result = book
-            expectation.fulfill()
-        }
-        wait(for: [expectation], timeout: 1.0)
-
+        let result = await service.getBook(by: "ID")
         XCTAssertEqual(result, TestResult.BookInfo.regularResult)
     }
 
-    func testBookInfoFailure() {
+    func testBookInfoFailure() async {
         let error = MockError()
         let session = WebServiceMockErrorSession(error: error)
         let service = WebDefaultService(key: "Key", urlSession: session, urlFactory: URLStubFactory())
 
-        var result: Book?
-
-        let expectation = XCTestExpectation()
-        service.getBook(by: "ID") { book in
-            result = book
-            expectation.fulfill()
-        }
-        wait(for: [expectation], timeout: 1.0)
-
+        let result = await service.getBook(by: "ID")
         XCTAssertNil(result)
-    }
-
-}
-
-// MARK: -
-
-private struct WebServiceMockDataTask: WebServiceTask {
-
-    // MARK: - Properties
-
-    // MARK: Private properties
-
-    private let completionHandler: (Data?, URLResponse?, Error?) -> Void
-    private let data: Data
-
-    // MARK: - Initialization
-
-    init(data: Data, completionHandler: @escaping ((Data?, URLResponse?, Error?) -> Void)) {
-        self.data = data
-        self.completionHandler = completionHandler
-    }
-
-    // MARK: - Methods
-
-    // MARK: WebServiceTask protocol methods
-
-    func resume() {
-        completionHandler(data, nil, nil)
-    }
-
-}
-
-// MARK: -
-
-private struct WebServiceMockErrorTask: WebServiceTask {
-
-    // MARK: - Properties
-
-    // MARK: Private properties
-
-    private let completionHandler: (Data?, URLResponse?, Error?) -> Void
-    private let error: Error
-
-    // MARK: - Initialization
-
-    init(error: Error, completionHandler: @escaping ((Data?, URLResponse?, Error?) -> Void)) {
-        self.error = error
-        self.completionHandler = completionHandler
-    }
-
-    // MARK: - Methods
-
-    // MARK: WebServiceTask protocol methods
-
-    func resume() {
-        completionHandler(nil, nil, error)
     }
 
 }
@@ -161,9 +73,8 @@ private struct WebServiceMockDataSession: WebServiceSession {
 
     // MARK: - Methods
 
-    func dataTask(with url: URL,
-                  completionHandler: @escaping (Data?, URLResponse?, Error?) -> Void) -> WebServiceMockDataTask {
-        return WebServiceMockDataTask(data: data, completionHandler: completionHandler)
+    func data(from url: URL) async throws -> (Data, URLResponse) {
+        (data, URLResponse())
     }
 
 }
@@ -186,9 +97,8 @@ private struct WebServiceMockErrorSession: WebServiceSession {
 
     // MARK: - Methods
 
-    func dataTask(with url: URL,
-                  completionHandler: @escaping (Data?, URLResponse?, Error?) -> Void) -> WebServiceMockErrorTask {
-        return WebServiceMockErrorTask(error: error, completionHandler: completionHandler)
+    func data(from url: URL) async throws -> (Data, URLResponse) {
+        throw error
     }
 
 }
@@ -202,11 +112,11 @@ private struct URLStubFactory: URLFactory {
     // MARK: URLFactory protocol methods
 
     func makeSearchBooksURL(key: String, query: String) -> URL {
-        return URL(string: "https://www.apple.com")!
+        URL(string: "https://www.apple.com")!
     }
 
     func makeBookInfoURL(key: String, id: String) -> URL {
-        return URL(string: "https://www.apple.com")!
+        URL(string: "https://www.apple.com")!
     }
 
 }

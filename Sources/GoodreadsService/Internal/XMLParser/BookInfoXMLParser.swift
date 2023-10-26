@@ -15,22 +15,18 @@ final class BookInfoXMLParser: NSObject, XMLParserDelegateResult {
     // MARK: XMLParserDelegateResult protocol properties
 
     var result: Book? {
-        guard let id = id else {
+        guard let id else {
             return nil
         }
 
         var imageURL: URL?
-        if let imageURLString = imageURLString {
+        if let imageURLString {
             imageURL = URL(string: imageURLString)
-        } else if let smallImageURLString = smallImageURLString {
+        } else if let smallImageURLString {
             imageURL = URL(string: smallImageURLString)
         }
 
-        return Book(authors: authors,
-                    title: title,
-                    id: id,
-                    imageURL: imageURL,
-                    similarBookIDs: similarBooksIDs)
+        return Book(authors: authors, title: title, id: id, imageURL: imageURL, similarBookIDs: similarBooksIDs)
     }
 
     // MARK: Private properties
@@ -57,7 +53,7 @@ final class BookInfoXMLParser: NSObject, XMLParserDelegateResult {
                 didStartElement elementName: String,
                 namespaceURI: String?,
                 qualifiedName qName: String?,
-                attributes attributeDict: [String: String] = [:]) {
+                attributes attributeDict: [String : String] = [:]) {
         if elementName == Element.mainBook {
             if !similarBooksOngoing {
                 bookIDExpected = true
@@ -85,20 +81,20 @@ final class BookInfoXMLParser: NSObject, XMLParserDelegateResult {
             }
         }
         if currentElement == Element.imageURL,
-            !string.contains(ContentMarker.noImage),
-            !authorNameExpected,
-            !similarBooksOngoing {
+           !string.contains(ContentMarker.noImage),
+           !authorNameExpected,
+           !similarBooksOngoing {
             imageURLString = string
         }
         if currentElement == Element.smallImageURL,
-            !string.contains(ContentMarker.noImage),
-            !authorNameExpected,
-            !similarBooksOngoing {
+           !string.contains(ContentMarker.noImage),
+           !authorNameExpected,
+           !similarBooksOngoing {
             smallImageURLString = string
         }
         if currentElement == Element.nameGeneral,
-            authorNameExpected,
-            !similarBooksOngoing {
+           authorNameExpected,
+           !similarBooksOngoing {
             currentAuthorName += string
         }
         if currentElement == Element.title {
@@ -115,7 +111,7 @@ final class BookInfoXMLParser: NSObject, XMLParserDelegateResult {
                 bookIDExpected = false
             }
             if similarBookIDExpected,
-                let currentSimilarBookID = currentSimilarBookID {
+               let currentSimilarBookID = currentSimilarBookID {
                 similarBooksIDs.append(currentSimilarBookID)
                 similarBookIDExpected = false
             }
@@ -124,8 +120,8 @@ final class BookInfoXMLParser: NSObject, XMLParserDelegateResult {
             authorNameExpected = false
         }
         if elementName == Element.nameGeneral,
-            authorNameExpected,
-            !similarBooksOngoing {
+           authorNameExpected,
+           !similarBooksOngoing {
             authors.append(currentAuthorName)
             currentAuthorName = ""
         }
