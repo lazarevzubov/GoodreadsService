@@ -8,8 +8,8 @@
 import Foundation
 
 /// A book meta-data object.
-public struct Book {
-    
+public struct Book: Sendable {
+
     // MARK: - Properties
 
     /// Authors of the book.
@@ -23,7 +23,7 @@ public struct Book {
     /// The book title.
     public let title: String
 
-    // MARK: - Initilization
+    // MARK: - Initialization
 
     /// Creates the book object.
     ///
