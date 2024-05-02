@@ -15,15 +15,17 @@ final class BookInfoXMLParser: NSObject, XMLParserDelegateResult {
     // MARK: XMLParserDelegateResult protocol properties
 
     var result: Book? {
-        guard let id else {
+        guard let id,
+              !authors.isEmpty,
+              !title.isEmpty else {
             return nil
         }
-
-        var imageURL: URL?
-        if let imageURLString {
-            imageURL = URL(string: imageURLString)
+        let imageURL: URL? = if let imageURLString {
+            URL(string: imageURLString)
         } else if let smallImageURLString {
-            imageURL = URL(string: smallImageURLString)
+            URL(string: smallImageURLString)
+        } else {
+            nil
         }
 
         return Book(authors: authors, title: title, id: id, imageURL: imageURL, similarBookIDs: similarBooksIDs)
