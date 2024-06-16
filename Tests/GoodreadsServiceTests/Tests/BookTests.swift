@@ -15,48 +15,66 @@ final class BookTests: XCTestCase {
 
     func testAuthors() {
         let authors = ["Author1", "Author1"]
-        let book = Book(authors: authors, title: "Title", id: "1")
+        let book = Book(authors: authors, title: "Title", description: "", id: "1")
 
         XCTAssertEqual(book.authors, authors)
     }
 
     func testID() {
         let id = "1"
-        let book = Book(authors: [], title: "Title", id: id)
+        let book = Book(authors: [], title: "Title", description: "", id: id)
 
         XCTAssertEqual(book.id, id)
     }
 
     func testImageURL() {
         let url = URL(string: "https://apple.com")!
-        let book = Book(authors: [], title: "Title", id: "1", imageURL: url)
+        let book = Book(authors: [], title: "Title", description: "", id: "1", imageURL: url)
 
         XCTAssertEqual(book.imageURL, url)
     }
 
     func testSimilarBookIDs() {
         let ids = ["1", "2"]
-        let book = Book(authors: [], title: "Title", id: "3", similarBookIDs: ids)
+        let book = Book(authors: [], title: "Title", description: "", id: "3", similarBookIDs: ids)
 
         XCTAssertEqual(book.similarBookIDs, ids)
     }
 
     func testTitle() {
         let title = "Title"
-        let book = Book(authors: [], title: title, id: "1")
+        let book = Book(authors: [], title: title, description: "", id: "1")
 
         XCTAssertEqual(book.title, title)
+    }
+
+    func testDescription() {
+        let desc = "Desc"
+        let book = Book(authors: [], title: "Title", description: desc, id: "1")
+
+        XCTAssertEqual(book.description, desc)
     }
 
     func testEqualHashes() {
         let authors = ["Author1", "Author2"]
         let title = "Title"
+        let desc = "Desc"
         let id = "1"
         let imageURL = URL(string: "https://apple.com")!
         let similarBookIDs = ["2", "3"]
 
-        let book1 = Book(authors: authors, title: title, id: id, imageURL: imageURL, similarBookIDs: similarBookIDs)
-        let book2 = Book(authors: authors, title: title, id: id, imageURL: imageURL, similarBookIDs: similarBookIDs)
+        let book1 = Book(authors: authors,
+                         title: title,
+                         description: desc,
+                         id: id,
+                         imageURL: imageURL,
+                         similarBookIDs: similarBookIDs)
+        let book2 = Book(authors: authors, 
+                         title: title,
+                         description: desc,
+                         id: id,
+                         imageURL: imageURL,
+                         similarBookIDs: similarBookIDs)
         XCTAssertEqual(book1.hashValue, book2.hashValue)
     }
 
@@ -65,12 +83,23 @@ final class BookTests: XCTestCase {
         let authors2 = ["Author1", "Author3"]
 
         let title = "Title"
+        let desc = "Desc"
         let id = "1"
         let imageURL = URL(string: "https://apple.com")!
         let similarBookIDs = ["2", "3"]
 
-        let book1 = Book(authors: authors1, title: title, id: id, imageURL: imageURL, similarBookIDs: similarBookIDs)
-        let book2 = Book(authors: authors2, title: title, id: id, imageURL: imageURL, similarBookIDs: similarBookIDs)
+        let book1 = Book(authors: authors1,
+                         title: title,
+                         description: desc,
+                         id: id,
+                         imageURL: imageURL,
+                         similarBookIDs: similarBookIDs)
+        let book2 = Book(authors: authors2, 
+                         title: title,
+                         description: desc,
+                         id: id,
+                         imageURL: imageURL,
+                         similarBookIDs: similarBookIDs)
 
         XCTAssertNotEqual(book1.hashValue, book2.hashValue)
     }
@@ -80,12 +109,49 @@ final class BookTests: XCTestCase {
         let title2 = "Title2"
 
         let authors = ["Author1", "Author2"]
+        let desc = "Desc"
         let id = "1"
         let imageURL = URL(string: "https://apple.com")!
         let similarBookIDs = ["2", "3"]
 
-        let book1 = Book(authors: authors, title: title1, id: id, imageURL: imageURL, similarBookIDs: similarBookIDs)
-        let book2 = Book(authors: authors, title: title2, id: id, imageURL: imageURL, similarBookIDs: similarBookIDs)
+        let book1 = Book(authors: authors, 
+                         title: title1,
+                         description: desc,
+                         id: id,
+                         imageURL: imageURL,
+                         similarBookIDs: similarBookIDs)
+        let book2 = Book(authors: authors, 
+                         title: title2,
+                         description: desc,
+                         id: id,
+                         imageURL: imageURL,
+                         similarBookIDs: similarBookIDs)
+
+        XCTAssertNotEqual(book1.hashValue, book2.hashValue)
+    }
+
+    func testHashDifferenceWithDifferentDescriptions() {
+        let desc1 = "Desc1"
+        let desc2 = "Desc2"
+
+        let authors = ["Author1", "Author2"]
+        let title = "Title"
+        let id = "1"
+        let imageURL = URL(string: "https://apple.com")!
+        let similarBookIDs = ["2", "3"]
+
+        let book1 = Book(authors: authors,
+                         title: title,
+                         description: desc1,
+                         id: id,
+                         imageURL: imageURL,
+                         similarBookIDs: similarBookIDs)
+        let book2 = Book(authors: authors,
+                         title: title,
+                         description: desc2,
+                         id: id,
+                         imageURL: imageURL,
+                         similarBookIDs: similarBookIDs)
 
         XCTAssertNotEqual(book1.hashValue, book2.hashValue)
     }
@@ -96,11 +162,22 @@ final class BookTests: XCTestCase {
 
         let authors = ["Author1", "Author2"]
         let title = "Title"
+        let desc = "Desc"
         let imageURL = URL(string: "https://apple.com")!
         let similarBookIDs = ["2", "3"]
 
-        let book1 = Book(authors: authors, title: title, id: id1, imageURL: imageURL, similarBookIDs: similarBookIDs)
-        let book2 = Book(authors: authors, title: title, id: id2, imageURL: imageURL, similarBookIDs: similarBookIDs)
+        let book1 = Book(authors: authors, 
+                         title: title,
+                         description: desc,
+                         id: id1,
+                         imageURL: imageURL,
+                         similarBookIDs: similarBookIDs)
+        let book2 = Book(authors: authors, 
+                         title: title,
+                         description: desc,
+                         id: id2,
+                         imageURL: imageURL,
+                         similarBookIDs: similarBookIDs)
 
         XCTAssertNotEqual(book1.hashValue, book2.hashValue)
     }
@@ -111,11 +188,22 @@ final class BookTests: XCTestCase {
 
         let authors = ["Author1", "Author2"]
         let title = "Title"
+        let desc = "Desc"
         let id = "1"
         let similarBookIDs = ["2", "3"]
 
-        let book1 = Book(authors: authors, title: title, id: id, imageURL: imageURL1, similarBookIDs: similarBookIDs)
-        let book2 = Book(authors: authors, title: title, id: id, imageURL: imageURL2, similarBookIDs: similarBookIDs)
+        let book1 = Book(authors: authors, 
+                         title: title,
+                         description: desc,
+                         id: id,
+                         imageURL: imageURL1,
+                         similarBookIDs: similarBookIDs)
+        let book2 = Book(authors: authors, 
+                         title: title,
+                         description: desc,
+                         id: id,
+                         imageURL: imageURL2,
+                         similarBookIDs: similarBookIDs)
 
         XCTAssertNotEqual(book1.hashValue, book2.hashValue)
     }
@@ -126,11 +214,22 @@ final class BookTests: XCTestCase {
 
         let authors = ["Author1", "Author2"]
         let title = "Title"
+        let desc = "Desc"
         let id = "1"
         let imageURL = URL(string: "https://apple.com")!
 
-        let book1 = Book(authors: authors, title: title, id: id, imageURL: imageURL, similarBookIDs: similarBookIDs1)
-        let book2 = Book(authors: authors, title: title, id: id, imageURL: imageURL, similarBookIDs: similarBookIDs2)
+        let book1 = Book(authors: authors, 
+                         title: title,
+                         description: desc,
+                         id: id,
+                         imageURL: imageURL,
+                         similarBookIDs: similarBookIDs1)
+        let book2 = Book(authors: authors, 
+                         title: title,
+                         description: desc,
+                         id: id,
+                         imageURL: imageURL,
+                         similarBookIDs: similarBookIDs2)
 
         XCTAssertNotEqual(book1.hashValue, book2.hashValue)
     }
@@ -138,12 +237,23 @@ final class BookTests: XCTestCase {
     func testEquals() {
         let authors = ["Author1", "Author2"]
         let title = "Title"
+        let desc = "Desc"
         let id = "1"
         let imageURL = URL(string: "https://apple.com")!
         let similarBookIDs = ["2", "3"]
 
-        let book1 = Book(authors: authors, title: title, id: id, imageURL: imageURL, similarBookIDs: similarBookIDs)
-        let book2 = Book(authors: authors, title: title, id: id, imageURL: imageURL, similarBookIDs: similarBookIDs)
+        let book1 = Book(authors: authors,
+                         title: title,
+                         description: desc,
+                         id: id,
+                         imageURL: imageURL,
+                         similarBookIDs: similarBookIDs)
+        let book2 = Book(authors: authors,
+                         title: title,
+                         description: desc,
+                         id: id,
+                         imageURL: imageURL,
+                         similarBookIDs: similarBookIDs)
         XCTAssertEqual(book1, book2)
     }
 
@@ -152,12 +262,23 @@ final class BookTests: XCTestCase {
         let authors2 = ["Author1", "Author3"]
 
         let title = "Title"
+        let desc = "Desc"
         let id = "1"
         let imageURL = URL(string: "https://apple.com")!
         let similarBookIDs = ["2", "3"]
 
-        let book1 = Book(authors: authors1, title: title, id: id, imageURL: imageURL, similarBookIDs: similarBookIDs)
-        let book2 = Book(authors: authors2, title: title, id: id, imageURL: imageURL, similarBookIDs: similarBookIDs)
+        let book1 = Book(authors: authors1,
+                         title: title,
+                         description: desc,
+                         id: id,
+                         imageURL: imageURL,
+                         similarBookIDs: similarBookIDs)
+        let book2 = Book(authors: authors2, 
+                         title: title,
+                         description: desc,
+                         id: id,
+                         imageURL: imageURL,
+                         similarBookIDs: similarBookIDs)
 
         XCTAssertNotEqual(book1, book2)
     }
@@ -167,12 +288,49 @@ final class BookTests: XCTestCase {
         let title2 = "Title2"
 
         let authors = ["Author1", "Author2"]
+        let desc = "Desc"
         let id = "1"
         let imageURL = URL(string: "https://apple.com")!
         let similarBookIDs = ["2", "3"]
 
-        let book1 = Book(authors: authors, title: title1, id: id, imageURL: imageURL, similarBookIDs: similarBookIDs)
-        let book2 = Book(authors: authors, title: title2, id: id, imageURL: imageURL, similarBookIDs: similarBookIDs)
+        let book1 = Book(authors: authors, 
+                         title: title1,
+                         description: desc,
+                         id: id,
+                         imageURL: imageURL,
+                         similarBookIDs: similarBookIDs)
+        let book2 = Book(authors: authors, 
+                         title: title2,
+                         description: desc,
+                         id: id,
+                         imageURL: imageURL,
+                         similarBookIDs: similarBookIDs)
+
+        XCTAssertNotEqual(book1, book2)
+    }
+
+    func testNotEqualWithDifferentDescriptions() {
+        let desc1 = "Desc1"
+        let desc2 = "Desc2"
+
+        let authors = ["Author1", "Author2"]
+        let title = "Title"
+        let id = "1"
+        let imageURL = URL(string: "https://apple.com")!
+        let similarBookIDs = ["2", "3"]
+
+        let book1 = Book(authors: authors,
+                         title: title,
+                         description: desc1,
+                         id: id,
+                         imageURL: imageURL,
+                         similarBookIDs: similarBookIDs)
+        let book2 = Book(authors: authors,
+                         title: title,
+                         description: desc2,
+                         id: id,
+                         imageURL: imageURL,
+                         similarBookIDs: similarBookIDs)
 
         XCTAssertNotEqual(book1, book2)
     }
@@ -183,11 +341,22 @@ final class BookTests: XCTestCase {
 
         let authors = ["Author1", "Author2"]
         let title = "Title"
+        let desc = "Desc"
         let imageURL = URL(string: "https://apple.com")!
         let similarBookIDs = ["2", "3"]
 
-        let book1 = Book(authors: authors, title: title, id: id1, imageURL: imageURL, similarBookIDs: similarBookIDs)
-        let book2 = Book(authors: authors, title: title, id: id2, imageURL: imageURL, similarBookIDs: similarBookIDs)
+        let book1 = Book(authors: authors, 
+                         title: title,
+                         description: desc,
+                         id: id1,
+                         imageURL: imageURL,
+                         similarBookIDs: similarBookIDs)
+        let book2 = Book(authors: authors, 
+                         title: title,
+                         description: desc,
+                         id: id2,
+                         imageURL: imageURL,
+                         similarBookIDs: similarBookIDs)
 
         XCTAssertNotEqual(book1, book2)
     }
@@ -198,11 +367,22 @@ final class BookTests: XCTestCase {
 
         let authors = ["Author1", "Author2"]
         let title = "Title"
+        let desc = "Desc"
         let id = "1"
         let similarBookIDs = ["2", "3"]
 
-        let book1 = Book(authors: authors, title: title, id: id, imageURL: imageURL1, similarBookIDs: similarBookIDs)
-        let book2 = Book(authors: authors, title: title, id: id, imageURL: imageURL2, similarBookIDs: similarBookIDs)
+        let book1 = Book(authors: authors,
+                         title: title,
+                         description: desc,
+                         id: id,
+                         imageURL: imageURL1,
+                         similarBookIDs: similarBookIDs)
+        let book2 = Book(authors: authors,
+                         title: title,
+                         description: desc,
+                         id: id,
+                         imageURL: imageURL2,
+                         similarBookIDs: similarBookIDs)
 
         XCTAssertNotEqual(book1, book2)
     }
@@ -213,11 +393,22 @@ final class BookTests: XCTestCase {
 
         let authors = ["Author1", "Author2"]
         let title = "Title"
+        let desc = "Desc"
         let id = "1"
         let imageURL = URL(string: "https://apple.com")!
 
-        let book1 = Book(authors: authors, title: title, id: id, imageURL: imageURL, similarBookIDs: similarBookIDs1)
-        let book2 = Book(authors: authors, title: title, id: id, imageURL: imageURL, similarBookIDs: similarBookIDs2)
+        let book1 = Book(authors: authors, 
+                         title: title,
+                         description: desc,
+                         id: id,
+                         imageURL: imageURL,
+                         similarBookIDs: similarBookIDs1)
+        let book2 = Book(authors: authors, 
+                         title: title,
+                         description: desc,
+                         id: id,
+                         imageURL: imageURL,
+                         similarBookIDs: similarBookIDs2)
 
         XCTAssertNotEqual(book1, book2)
     }

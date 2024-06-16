@@ -28,13 +28,20 @@ final class BookInfoXMLParser: NSObject, XMLParserDelegateResult {
             nil
         }
 
-        return Book(authors: authors, title: title, id: id, imageURL: imageURL, similarBookIDs: similarBooksIDs)
+        return Book(authors: authors,
+                    title: title,
+                    description: bookDescription.trimmingCharacters(in: .whitespacesAndNewlines),
+                    id: id,
+                    imageURL: imageURL,
+                    similarBookIDs: similarBooksIDs)
     }
 
     // MARK: Private properties
 
     private var authorNameExpected = false
     private var authors = [String]()
+    private var descriptionParsed = false
+    private var bookDescription = "" // The name "description" has been already taken by NSObject.
     private var bookIDExpected = false
     private var currentAuthorName = ""
     private var currentElement: String?
@@ -102,6 +109,10 @@ final class BookInfoXMLParser: NSObject, XMLParserDelegateResult {
         if currentElement == Element.title {
             title += string
         }
+        if currentElement == Element.description,
+           !descriptionParsed {
+            bookDescription += string
+        }
     }
 
     func parser(_ parser: XMLParser,
@@ -130,6 +141,9 @@ final class BookInfoXMLParser: NSObject, XMLParserDelegateResult {
         if elementName == Element.similarBooks {
             similarBooksOngoing = false
         }
+        if elementName == Element.description {
+            descriptionParsed = true
+        }
 
         currentElement = ""
     }
@@ -141,6 +155,7 @@ final class BookInfoXMLParser: NSObject, XMLParserDelegateResult {
         // MARK: - Properties
 
         static let authors = "authors"
+        static let description = "description"
         static let idGeneral = "id"
         static let imageURL = "image_url"
         static let mainBook = "book"

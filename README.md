@@ -25,6 +25,7 @@ Books are represented by the `Book` type values. They consist of:
 * `id` – The string representing the Goodreads ID of the book.
 * `authors` – The string array of author full names. 
 * `title` – The book title.
+* `description` – The book description.
 * `imageURL` – The `URL` of the book cover in small resolution or `nil` if no cover found.
 * `similarBookIDs` – The string array of similar (recommended) books IDs.
 
