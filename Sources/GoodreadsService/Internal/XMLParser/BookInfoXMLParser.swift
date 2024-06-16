@@ -69,14 +69,11 @@ final class BookInfoXMLParser: NSObject, XMLParserDelegateResult {
             } else {
                 similarBookIDExpected = true
             }
-        }
-        if elementName == Element.authors {
+        } else if elementName == Element.authors {
             authorNameExpected = true
-        }
-        if elementName == Element.similarBooks {
+        } else if elementName == Element.similarBooks {
             similarBooksOngoing = true
         }
-
         currentElement = elementName
     }
 
@@ -84,34 +81,32 @@ final class BookInfoXMLParser: NSObject, XMLParserDelegateResult {
         if currentElement == Element.idGeneral {
             if bookIDExpected {
                 id = string
-            }
-            if similarBookIDExpected {
+            } else if similarBookIDExpected {
                 currentSimilarBookID = string
             }
-        }
-        if currentElement == Element.imageURL,
-           !string.contains(ContentMarker.noImage),
-           !authorNameExpected,
-           !similarBooksOngoing {
-            imageURLString = string
-        }
-        if currentElement == Element.smallImageURL,
-           !string.contains(ContentMarker.noImage),
-           !authorNameExpected,
-           !similarBooksOngoing {
-            smallImageURLString = string
-        }
-        if currentElement == Element.nameGeneral,
-           authorNameExpected,
-           !similarBooksOngoing {
-            currentAuthorName += string
-        }
-        if currentElement == Element.title {
+        } else if currentElement == Element.imageURL {
+           if !string.contains(ContentMarker.noImage),
+              !authorNameExpected,
+              !similarBooksOngoing {
+               imageURLString = string
+           }
+        } else if currentElement == Element.smallImageURL {
+           if !string.contains(ContentMarker.noImage),
+              !authorNameExpected,
+              !similarBooksOngoing {
+               smallImageURLString = string
+           }
+        } else if currentElement == Element.nameGeneral {
+           if authorNameExpected,
+              !similarBooksOngoing {
+               currentAuthorName += string
+           }
+        } else if currentElement == Element.title {
             title += string
-        }
-        if currentElement == Element.description,
-           !descriptionParsed {
-            bookDescription += string
+        } else if currentElement == Element.description {
+            if !descriptionParsed {
+                bookDescription += string
+            }
         }
     }
 
@@ -122,29 +117,25 @@ final class BookInfoXMLParser: NSObject, XMLParserDelegateResult {
         if elementName == Element.idGeneral {
             if bookIDExpected {
                 bookIDExpected = false
+            } else if similarBookIDExpected {
+                if let currentSimilarBookID = currentSimilarBookID {
+                    similarBooksIDs.append(currentSimilarBookID)
+                    similarBookIDExpected = false
+                }
             }
-            if similarBookIDExpected,
-               let currentSimilarBookID = currentSimilarBookID {
-                similarBooksIDs.append(currentSimilarBookID)
-                similarBookIDExpected = false
-            }
-        }
-        if elementName == Element.authors {
+        } else if elementName == Element.authors {
             authorNameExpected = false
-        }
-        if elementName == Element.nameGeneral,
-           authorNameExpected,
-           !similarBooksOngoing {
-            authors.append(currentAuthorName)
-            currentAuthorName = ""
-        }
-        if elementName == Element.similarBooks {
+        } else if elementName == Element.nameGeneral {
+           if authorNameExpected,
+              !similarBooksOngoing {
+               authors.append(currentAuthorName)
+               currentAuthorName = ""
+           }
+        } else if elementName == Element.similarBooks {
             similarBooksOngoing = false
-        }
-        if elementName == Element.description {
+        } else if elementName == Element.description {
             descriptionParsed = true
         }
-
         currentElement = ""
     }
 
