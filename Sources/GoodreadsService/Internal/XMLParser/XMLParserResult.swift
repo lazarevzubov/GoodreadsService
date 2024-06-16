@@ -12,7 +12,7 @@ protocol EmptyRepresentable {
 
     // MARK: - Initialization
 
-    /// Creates an emoty or generic instance of the type.
+    /// Creates an empty or generic instance of the type.
     init()
 
 }
