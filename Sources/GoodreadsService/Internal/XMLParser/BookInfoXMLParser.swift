@@ -28,10 +28,10 @@ final class BookInfoXMLParser: NSObject, XMLParserDelegateResult {
             nil
         }
 
-        return Book(authors: authors,
+        return Book(id: id,
+                    authors: authors,
                     title: title,
                     description: bookDescription.trimmingCharacters(in: .whitespacesAndNewlines),
-                    id: id,
                     imageURL: imageURL,
                     similarBookIDs: similarBooksIDs)
     }

@@ -32,16 +32,16 @@ public struct Book: Sendable {
     /// This initializer is made public mainly for your app testing purposes.
     ///
     /// - Parameters:
+    ///   - id: The ID of the book.
     ///   - authors: Authors of the book.
     ///   - title: The book title.
     ///   - description: A description of the book.
-    ///   - id: The ID of the book.
     ///   - imageURL: The book cover.
     ///   - similarBookIDs: Similar books IDs.
-    public init(authors: [String],
+    public init(id: String,
+                authors: [String],
                 title: String,
                 description: String,
-                id: String,
                 imageURL: URL? = nil,
                 similarBookIDs: [String] = []) {
         self.authors = authors
