@@ -33,30 +33,27 @@ final class SearchBooksXMLParser: NSObject, XMLParserDelegateResult {
         if elementName == Element.book {
             currentElement = elementName
             return
-        }
-        if elementName == Element.id,
-            currentElement == Element.book {
-            currentElement = elementName
+        } else if elementName == Element.id {
+            if currentElement == Element.book {
+                currentElement = elementName
+            }
         }
     }
 
     func parser(_ parser: XMLParser, foundCharacters string: String) {
-        guard currentElement == Element.id else {
-            return
+        if currentElement == Element.id {
+            currentID = string
         }
-        currentID = string
     }
 
     func parser(_ parser: XMLParser,
                 didEndElement elementName: String,
                 namespaceURI: String?,
                 qualifiedName qName: String?) {
-        guard currentElement == Element.id else {
-            return
+        if currentElement == Element.id {
+            result.append(currentID)
+            resetForNext()
         }
-
-        result.append(currentID)
-        resetForNext()
     }
 
     // MARK: Private methods
