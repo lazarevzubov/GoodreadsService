@@ -11,10 +11,6 @@ import XCTest
 
 final class SearchBooksXMLParserTests: XCTestCase {
 
-    // MARK: - Properties
-
-    static private(set) var allTests = [("testSearchBookInfoResult", testSearchBookInfoResult)]
-
     // MARK: - Methods
 
     func testSearchBookInfoResult() {
