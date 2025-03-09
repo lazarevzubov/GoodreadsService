@@ -11,10 +11,6 @@ import XCTest
 
 final class WebDefaultServiceTests: XCTestCase {
 
-    // MARK: - Properties
-
-    static private(set) var allTests = [("testSearchBooksSuccess", testSearchBooksSuccess)]
-
     // MARK: - Methods
 
     func testSearchBooksSuccess() async {
