@@ -8,7 +8,7 @@
 import Foundation
 
 /// The service URLs factory.
-protocol URLFactory {
+protocol URLFactory: Sendable {
 
     // MARK: - Methods
 

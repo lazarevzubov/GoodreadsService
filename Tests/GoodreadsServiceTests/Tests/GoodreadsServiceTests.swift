@@ -7,37 +7,39 @@
 
 @testable
 import GoodreadsService
-import XCTest
+import Testing
 
-final class GoodreadsServiceTests: XCTestCase {
+struct GoodreadsServiceTests {
 
     // MARK: - Methods
 
-    func testSearchBooks() async {
+    @Test
+    func searchBooks_sendsCorrectQuery() async {
         let webService = WebMockService()
         let service = GoodreadsService(webService: webService)
 
         let query = "Query"
         _ = await service.searchBooks(query)
         
-        XCTAssertEqual(webService.query, query)
+        await #expect(webService.query == query)
     }
 
-    func testGetBook() async {
+    @Test
+    func getBook_sendsCorrectID() async {
         let webService = WebMockService()
         let service = GoodreadsService(webService: webService)
 
         let id = "1"
         _ = await service.getBook(by: id)
 
-        XCTAssertEqual(webService.id, id)
+        await #expect(webService.id == id)
     }
 
 }
 
 // MARK: -
 
-private final class WebMockService: WebService {
+actor WebMockService: WebService {
 
     // MARK: - Properties
 

@@ -8,8 +8,8 @@
 import Foundation
 
 /// Handles requests to a web service.
-protocol WebService {
-    
+protocol WebService: Actor {
+
     // MARK: - Methods
 
     /// Sends a search request to the service.
@@ -26,7 +26,7 @@ protocol WebService {
 // MARK: - 
 
 /// The real web service requests handler.
-struct WebDefaultService: WebService {
+actor WebDefaultService: WebService {
 
     // MARK: - Properties
 
