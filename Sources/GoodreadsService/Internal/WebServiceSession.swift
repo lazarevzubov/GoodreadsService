@@ -8,7 +8,7 @@
 import Foundation
 
 /// Coordinates a group of web service tasks.
-protocol WebServiceSession {
+protocol WebServiceSession: Sendable {
 
     // MARK: - Methods
 

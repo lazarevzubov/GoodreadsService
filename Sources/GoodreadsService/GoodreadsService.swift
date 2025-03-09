@@ -10,7 +10,7 @@ import Foundation
 /// The entry point to the service.
 ///
 /// Contains the set of methods to interact with the Goodreads database.
-public struct GoodreadsService {
+public struct GoodreadsService: Sendable {
 
     // MARK: - Properties
 
