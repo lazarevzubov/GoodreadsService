@@ -2,11 +2,17 @@
 
 import PackageDescription
 
-let package = Package(name: "GoodreadsService",
-                      platforms: [.iOS(.v17),
-                                  .macOS(.v14),
-                                  .watchOS(.v10)],
-                      products: [.library(name: "GoodreadsService", targets: ["GoodreadsService"])],
-                      dependencies: [],
-                      targets: [.target(name: "GoodreadsService", dependencies: []),
-                                .testTarget(name: "GoodreadsServiceTests", dependencies: ["GoodreadsService"])])
+let package = Package(
+    name: "GoodreadsService",
+    platforms: [
+        .iOS(.v18),
+        .macOS(.v15),
+        .watchOS(.v11)
+    ],
+    products: [.library(name: "GoodreadsService", targets: ["GoodreadsService"])],
+    dependencies: [],
+    targets: [
+        .target(name: "GoodreadsService", dependencies: []),
+        .testTarget(name: "GoodreadsServiceTests", dependencies: ["GoodreadsService"])
+    ]
+)
