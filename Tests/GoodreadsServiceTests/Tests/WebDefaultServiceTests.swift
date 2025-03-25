@@ -5,48 +5,53 @@
 //  Created by Nikita Lazarev-Zubov on 13.5.2020.
 //
 
+import Foundation
 @testable
 import GoodreadsService
-import XCTest
+import Testing
 
-final class WebDefaultServiceTests: XCTestCase {
+struct WebDefaultServiceTests {
 
     // MARK: - Methods
 
-    func testSearchBooksSuccess() async {
+    @Test
+    func searchBooks_success() async {
         let data = TestData.SearchBooks.regularXML
         let session = WebServiceMockDataSession(data: data)
         let service = WebDefaultService(key: "Key", urlSession: session, urlFactory: URLStubFactory())
 
         let result = await service.searchBooks("Query")
-        XCTAssertEqual(result, TestResult.SearchBooks.regular)
+        #expect(result == TestResult.SearchBooks.regular)
     }
 
-    func testSearchBookFailure() async {
+    @Test
+    func searchBook_failure() async {
         let error = MockError()
         let session = WebServiceMockErrorSession(error: error)
         let service = WebDefaultService(key: "Key", urlSession: session, urlFactory: URLStubFactory())
 
         let result = await service.searchBooks("Query")
-        XCTAssertTrue(result.isEmpty)
+        #expect(result.isEmpty)
     }
 
-    func testBookInfoSuccess() async {
+    @Test
+    func bookInfo_success() async {
         let data = TestData.BookInfo.regularXML
         let session = WebServiceMockDataSession(data: data)
         let service = WebDefaultService(key: "Key", urlSession: session, urlFactory: URLStubFactory())
 
         let result = await service.getBook(by: "ID")
-        XCTAssertEqual(result, TestResult.BookInfo.regularResult)
+        #expect(result == TestResult.BookInfo.regularResult)
     }
 
-    func testBookInfoFailure() async {
+    @Test
+    func bookInfo_failure() async {
         let error = MockError()
         let session = WebServiceMockErrorSession(error: error)
         let service = WebDefaultService(key: "Key", urlSession: session, urlFactory: URLStubFactory())
 
         let result = await service.getBook(by: "ID")
-        XCTAssertNil(result)
+        #expect(result == nil)
     }
 
 }

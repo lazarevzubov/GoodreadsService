@@ -5,15 +5,17 @@
 //  Created by Nikita Lazarev-Zubov on 11.5.2020.
 //
 
+import Foundation
 @testable
 import GoodreadsService
-import XCTest
+import Testing
 
-final class BookInfoXMLParserTests: XCTestCase {
+struct BookInfoXMLParserTests {
 
     // MARK: - Methods
 
-    func testParseBookInfoResult() {
+    @Test
+    func parseBookInfoResult_asExpected() {
         let data = TestData.BookInfo.regularXML
         let systemParser = XMLParser(data: data)
 
@@ -23,10 +25,11 @@ final class BookInfoXMLParserTests: XCTestCase {
         systemParser.parse()
         let result = parser.result
 
-        XCTAssertEqual(result, TestResult.BookInfo.regularResult)
+        #expect(result == TestResult.BookInfo.regularResult)
     }
 
-    func testNoPhotoXML() {
+    @Test
+    func noPhotoXMLResult_asExpected() throws {
         let data = TestData.BookInfo.noPhotoXML
         let systemParser = XMLParser(data: data)
 
@@ -34,8 +37,9 @@ final class BookInfoXMLParserTests: XCTestCase {
         systemParser.delegate = parser
 
         systemParser.parse()
-        let result = parser.result
-        XCTAssertNil(result!.imageURL)
+        let result = try #require(parser.result)
+
+        #expect(result.imageURL == nil)
     }
 
 }
