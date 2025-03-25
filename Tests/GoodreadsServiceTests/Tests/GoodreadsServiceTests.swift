@@ -39,7 +39,7 @@ struct GoodreadsServiceTests {
 
 // MARK: -
 
-actor WebMockService: WebService {
+private actor WebMockService: WebService {
 
     // MARK: - Properties
 

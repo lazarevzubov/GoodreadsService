@@ -5,15 +5,17 @@
 //  Created by Nikita Lazarev-Zubov on 12.5.2020.
 //
 
+import Foundation
 @testable
 import GoodreadsService
-import XCTest
+import Testing
 
-final class SearchBooksXMLParserTests: XCTestCase {
+struct SearchBooksXMLParserTests {
 
     // MARK: - Methods
 
-    func testSearchBookInfoResult() {
+    @Test
+    func searchBookInfoResult_asExpected() {
         let data = TestData.SearchBooks.regularXML
         let systemParser = XMLParser(data: data)
 
@@ -23,7 +25,7 @@ final class SearchBooksXMLParserTests: XCTestCase {
         systemParser.parse()
         let result = parser.result
 
-        XCTAssertEqual(result, TestResult.SearchBooks.regular)
+        #expect(result == TestResult.SearchBooks.regular)
     }
 
 }
