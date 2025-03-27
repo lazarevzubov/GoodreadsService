@@ -71,8 +71,9 @@ actor WebDefaultService: WebService {
 
     // MARK: Private methods
 
-    private func parseData<Parser: XMLParserDelegateResult>(from url: URL,
-                                                            parser: Parser) async throws -> Parser.Result {
+    private func parseData<Parser: XMLParserDelegateResult>(
+        from url: URL, parser: Parser
+    ) async throws -> Parser.Result {
         let (data, _) = try await urlSession.data(from: url)
         return handleXML(data, parser: parser)
     }

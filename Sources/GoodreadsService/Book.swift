@@ -38,12 +38,14 @@ public struct Book: Sendable {
     ///   - description: A description of the book.
     ///   - imageURL: The book cover.
     ///   - similarBookIDs: Similar books IDs.
-    public init(id: String,
-                authors: [String],
-                title: String,
-                description: String,
-                imageURL: URL? = nil,
-                similarBookIDs: [String] = []) {
+    public init(
+        id: String,
+        authors: [String],
+        title: String,
+        description: String,
+        imageURL: URL? = nil,
+        similarBookIDs: [String] = []
+    ) {
         self.authors = authors
         self.title = title
         self.description = description
