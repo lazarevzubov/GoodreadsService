@@ -28,12 +28,14 @@ final class BookInfoXMLParser: NSObject, XMLParserDelegateResult {
             nil
         }
 
-        return Book(id: id,
-                    authors: authors,
-                    title: title,
-                    description: bookDescription.trimmingCharacters(in: .whitespacesAndNewlines),
-                    imageURL: imageURL,
-                    similarBookIDs: similarBooksIDs)
+        return Book(
+            id: id,
+            authors: authors,
+            title: title,
+            description: bookDescription.trimmingCharacters(in: .whitespacesAndNewlines),
+            imageURL: imageURL,
+            similarBookIDs: similarBooksIDs
+        )
     }
 
     // MARK: Private properties
@@ -58,11 +60,13 @@ final class BookInfoXMLParser: NSObject, XMLParserDelegateResult {
 
     // MARK: XMLParserDelegateResult protocol methods
 
-    func parser(_ parser: XMLParser,
-                didStartElement elementName: String,
-                namespaceURI: String?,
-                qualifiedName qName: String?,
-                attributes attributeDict: [String : String] = [:]) {
+    func parser(
+        _ parser: XMLParser,
+        didStartElement elementName: String,
+        namespaceURI: String?,
+        qualifiedName qName: String?,
+        attributes attributeDict: [String : String] = [:]
+    ) {
         if elementName == Element.mainBook {
             if !similarBooksOngoing {
                 bookIDExpected = true
@@ -110,10 +114,12 @@ final class BookInfoXMLParser: NSObject, XMLParserDelegateResult {
         }
     }
 
-    func parser(_ parser: XMLParser,
-                didEndElement elementName: String,
-                namespaceURI: String?,
-                qualifiedName qName: String?) {
+    func parser(
+        _ parser: XMLParser,
+        didEndElement elementName: String,
+        namespaceURI: String?,
+        qualifiedName qName: String?
+    ) {
         if elementName == Element.idGeneral {
             if bookIDExpected {
                 bookIDExpected = false

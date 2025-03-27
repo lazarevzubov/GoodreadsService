@@ -43,8 +43,10 @@ struct URLDefaultFactory: URLFactory {
         urlComponents.scheme = Component.scheme
         urlComponents.host = Component.host
         urlComponents.path = Component.Path.searchBook
-        urlComponents.queryItems = [URLQueryItem(name: Component.Query.key, value: key),
-                                    URLQueryItem(name: Component.Query.query, value: query)]
+        urlComponents.queryItems = [
+            URLQueryItem(name: Component.Query.key, value: key),
+            URLQueryItem(name: Component.Query.query, value: query)
+        ]
 
         guard let url = urlComponents.url else {
             fatalError("\(#file).\(#line): Unexpectedly wrong URL parameters—a programmer's error.")

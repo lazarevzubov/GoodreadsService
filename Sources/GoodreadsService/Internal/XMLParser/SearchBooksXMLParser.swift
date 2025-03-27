@@ -25,18 +25,17 @@ final class SearchBooksXMLParser: NSObject, XMLParserDelegateResult {
 
     // MARK: XMLParserDelegateResult protocol methods
 
-    func parser(_ parser: XMLParser,
-                didStartElement elementName: String,
-                namespaceURI: String?,
-                qualifiedName qName: String?,
-                attributes attributeDict: [String: String] = [:]) {
-        if elementName == Element.book {
+    func parser(
+        _ parser: XMLParser,
+        didStartElement elementName: String,
+        namespaceURI: String?,
+        qualifiedName qName: String?,
+        attributes attributeDict: [String: String] = [:]
+    ) {
+        if (elementName == Element.book)
+               || ((elementName == Element.id)
+                       && (currentElement == Element.book)) {
             currentElement = elementName
-            return
-        } else if elementName == Element.id {
-            if currentElement == Element.book {
-                currentElement = elementName
-            }
         }
     }
 
@@ -46,10 +45,12 @@ final class SearchBooksXMLParser: NSObject, XMLParserDelegateResult {
         }
     }
 
-    func parser(_ parser: XMLParser,
-                didEndElement elementName: String,
-                namespaceURI: String?,
-                qualifiedName qName: String?) {
+    func parser(
+        _ parser: XMLParser,
+        didEndElement elementName: String,
+        namespaceURI: String?,
+        qualifiedName qName: String?
+    ) {
         if currentElement == Element.id {
             result.append(currentID)
             resetForNext()
