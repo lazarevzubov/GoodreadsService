@@ -14,6 +14,8 @@ public struct Book: Sendable {
 
     /// Authors of the book.
     public let authors: [String]
+    /// The average rating of the book.
+    public let rating: Double?
     /// A description of the book.
     public let description: String
     /// Goodreads ID of the book.
@@ -36,6 +38,7 @@ public struct Book: Sendable {
     ///   - authors: Authors of the book.
     ///   - title: The book title.
     ///   - description: A description of the book.
+    ///   - rating: The average rating of the book.
     ///   - imageURL: The book cover.
     ///   - similarBookIDs: Similar books IDs.
     public init(
@@ -43,13 +46,15 @@ public struct Book: Sendable {
         authors: [String],
         title: String,
         description: String,
+        rating: Double? = nil,
         imageURL: URL? = nil,
         similarBookIDs: [String] = []
     ) {
+        self.id = id
         self.authors = authors
         self.title = title
         self.description = description
-        self.id = id
+        self.rating = rating
         self.imageURL = imageURL
         self.similarBookIDs = similarBookIDs
     }

@@ -20,6 +20,12 @@ final class BookInfoXMLParser: NSObject, XMLParserDelegateResult {
               !title.isEmpty else {
             return nil
         }
+
+        let rating: Double? = if let ratingString {
+            Double(ratingString)
+        } else {
+            nil
+        }
         let imageURL: URL? = if let imageURLString {
             URL(string: imageURLString)
         } else if let smallImageURLString {
@@ -33,6 +39,7 @@ final class BookInfoXMLParser: NSObject, XMLParserDelegateResult {
             authors: authors,
             title: title,
             description: bookDescription.trimmingCharacters(in: .whitespacesAndNewlines),
+            rating: rating,
             imageURL: imageURL,
             similarBookIDs: similarBooksIDs
         )
@@ -50,6 +57,7 @@ final class BookInfoXMLParser: NSObject, XMLParserDelegateResult {
     private var currentSimilarBookID: String?
     private var id: String?
     private var imageURLString: String?
+    private var ratingString: String?
     private var similarBookIDExpected = false
     private var similarBooksIDs = [String]()
     private var similarBooksOngoing = false
@@ -111,6 +119,8 @@ final class BookInfoXMLParser: NSObject, XMLParserDelegateResult {
             if !descriptionParsed {
                 bookDescription += string
             }
+        } else if currentElement == Element.rating {
+            ratingString = string
         }
     }
 
@@ -157,6 +167,7 @@ final class BookInfoXMLParser: NSObject, XMLParserDelegateResult {
         static let imageURL = "image_url"
         static let mainBook = "book"
         static let nameGeneral = "name"
+        static let rating = "average_rating"
         static let similarBooks = "similar_books"
         static let smallImageURL = "small_image_url"
         static let title = "original_title"
